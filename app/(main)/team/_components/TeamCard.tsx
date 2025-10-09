@@ -26,7 +26,7 @@ function TeamCard({ position, image, title, link }: TeamCardProps) {
             alt="Profile"
             width={120}
             height={120}
-            className="rounded-full object-cover w-32 h-32 border-4 border-green-700"
+            className="rounded-full object-contain w-32 h-32 border-4 border-green-700"
           />
         ) : (
           <MdPerson size={120} color="green" className="mb-2" />
