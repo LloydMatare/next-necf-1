@@ -95,7 +95,7 @@ export default function LoginForm() {
                       <Input
                         autoComplete="current-password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
+                        placeholder="••••••••."
                         className="h-10 px-3 text-sm"
                         {...field}
                       />
