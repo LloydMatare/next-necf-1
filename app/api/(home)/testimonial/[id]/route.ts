@@ -3,11 +3,14 @@ import Testimonial from "@/models/(home)/testimonial";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const about = await Testimonial.findById(params.id)
+        const { id } = await params
+        const about = await Testimonial.findById(id)
 
         if (!about) {
             return NextResponse.json(
@@ -26,12 +29,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const aboutUpdated = await Testimonial.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const aboutUpdated = await Testimonial.findByIdAndUpdate(id, body)
 
         if (!aboutUpdated) {
             return NextResponse.json(
@@ -50,11 +56,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const about = await Testimonial.findByIdAndDelete(params.id)
+        const { id } = await params
+        const about = await Testimonial.findByIdAndDelete(id)
 
         if (!about) {
             return NextResponse.json(

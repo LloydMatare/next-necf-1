@@ -1,53 +1,72 @@
-import { Copy } from "lucide-react"
+"use client";
 
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import Image from "next/image"
+import * as React from "react"
 
-interface AboutProps {
-    id?: number,
-    image: string
-}
+type AboutImageProps = Omit<
+  React.ComponentPropsWithoutRef<"button">,
+  "children"
+> & {
+  id?: number;
+  image: string;
+  alt?: string;
+};
 
-const AboutImage = ({ id, image }: AboutProps) => {
+const AboutImage = React.forwardRef<HTMLButtonElement, AboutImageProps>(
+  ({ image, alt, className, type, ...props }, ref) => {
     return (
-        <div className=''>
-            <Image width={300} height={300} className="h-auto max-w-full rounded-lg hover:opacity-70 cursor-pointer" src={image} alt="" />
-        </div>
+      <button
+        {...props}
+        ref={ref}
+        type={type ?? "button"}
+        aria-label={alt || "Open image"}
+        className={[
+          "group relative block w-full overflow-hidden rounded-2xl text-left ring-1 ring-border/60 focus:outline-none focus:ring-2 focus:ring-emerald-500/40",
+          className,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <Image
+          width={800}
+          height={800}
+          className="aspect-square w-full object-cover transition duration-300 group-hover:scale-[1.03] group-hover:opacity-90"
+          src={image}
+          alt={alt || "Gallery image"}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+      </button>
     )
-}
+  }
+)
+AboutImage.displayName = "AboutImage"
 
 export function GalleryModal({ src, title, description }: any) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <AboutImage image={src} />
+                <AboutImage image={src} alt={title} />
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <div className="flex flex-col w-full items-center space-x-2">
-                    <Image src={src} alt="" width={500} height={500} className="w-full" />
-                    <div className="">
-                        <p className="mt-4">{title}</p>
-                    </div>
-                    <div className="">
-                        <p className="mt-4">{description}</p>
-                    </div>
-                </div>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                    </DialogClose>
-                </DialogFooter>
+            <DialogContent className="max-w-5xl bg-transparent p-0 ring-0 shadow-none sm:max-w-5xl">
+                <figure className="relative overflow-hidden rounded-2xl bg-black/60 ring-1 ring-white/10">
+                    <Image
+                        src={src}
+                        alt={title}
+                        width={1800}
+                        height={1200}
+                        sizes="(max-width: 768px) 92vw, 900px"
+                        className="max-h-[75vh] w-full object-contain"
+                    />
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 py-4">
+                        <p className="text-sm font-medium text-white">{title}</p>
+                        <p className="mt-1 text-xs text-white/80">{description}</p>
+                    </figcaption>
+                </figure>
             </DialogContent>
         </Dialog>
     )

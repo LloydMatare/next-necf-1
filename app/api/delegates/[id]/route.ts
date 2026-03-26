@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { NextResponse } from "next/server";
 
 import Company from "@/models/company";
@@ -7,11 +8,11 @@ import { connectToDB } from "@/lib/connectToDB";
 // UPDATE (PUT) - Update a company and its delegates
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDB();
-    const { id } = params;
+    const { id } = await params;
     const { companyName, contactPerson, email, tel, mobile, delegates } =
       await req.json();
 
@@ -47,11 +48,11 @@ export async function PUT(
 // DELETE - Delete a company and its delegates
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDB();
-    const { id } = params;
+    const { id } = await params;
 
     const company = await Company.findByIdAndDelete(id);
     if (!company) {

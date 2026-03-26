@@ -19,25 +19,3 @@ export async function GET() {
     const monthly = await Monthly.find()
     return NextResponse.json({ monthly })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const monthly = await Monthly.findByIdAndDelete(params.id)
-
-        if (!monthly) {
-            return NextResponse.json(
-                {
-                    message: "monthly not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(monthly)
-
-    } catch (error) {
-        return NextResponse.json({ message: "monthly error" }, { status: 400 })
-    }
-}

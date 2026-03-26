@@ -18,25 +18,3 @@ export async function GET() {
     const core = await Core.find()
     return NextResponse.json({ core })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const core = await Core.findByIdAndDelete(params.id)
-
-        if (!core) {
-            return NextResponse.json(
-                {
-                    message: "Core not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(core)
-
-    } catch (error) {
-        return NextResponse.json({ message: "Core error" }, { status: 400 })
-    }
-}

@@ -19,25 +19,3 @@ export async function GET() {
     const programs = await Program.find()
     return NextResponse.json({ programs })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const program = await Program.findByIdAndDelete(params.id)
-
-        if (!program) {
-            return NextResponse.json(
-                {
-                    message: "program not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(program)
-
-    } catch (error) {
-        return NextResponse.json({ message: "program error" }, { status: 400 })
-    }
-}

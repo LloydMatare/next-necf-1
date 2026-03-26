@@ -17,25 +17,3 @@ export async function GET() {
     const about = await Testimonial.find()
     return NextResponse.json({ about })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const about = await Testimonial.findByIdAndDelete(params.id)
-
-        if (!about) {
-            return NextResponse.json(
-                {
-                    message: "Testimonial not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(about)
-
-    } catch (error) {
-        return NextResponse.json({ message: "Testimonial error" }, { status: 400 })
-    }
-}

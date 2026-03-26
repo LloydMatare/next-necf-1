@@ -1,7 +1,5 @@
-import React from 'react'
-import GalleryCard from './galleryCard'
 import getGalleries from '@/lib/(programs)/gallery/getGalleries'
-import { GalleryModal } from './galleryModal'
+import PaginatedProgramGallery from './paginatedProgramGallery'
 
 
 async function Gallery() {
@@ -9,17 +7,14 @@ async function Gallery() {
     const galleries = await getGalleries()
 
     return (
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {
-                galleries.map((gallery: any) => (
-                    <GalleryModal
-                        key={gallery.id}
-                        title={gallery.title}
-                        description={gallery.description}
-                        src={gallery.image}
-                    />
-                ))
-            }
+        <div className="space-y-6">
+            <div>
+                <p className="text-xs font-semibold tracking-widest text-emerald-900/80">GALLERY</p>
+                <h3 className="mt-2 font-[var(--font-display)] text-2xl text-foreground md:text-3xl">
+                    Programme Highlights
+                </h3>
+            </div>
+            <PaginatedProgramGallery items={galleries as any} />
         </div>
     )
 }

@@ -19,25 +19,3 @@ export async function GET() {
     const research = await Research.find()
     return NextResponse.json({ research })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const research = await Research.findByIdAndDelete(params.id)
-
-        if (!research) {
-            return NextResponse.json(
-                {
-                    message: "research not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(research)
-
-    } catch (error) {
-        return NextResponse.json({ message: "research error" }, { status: 400 })
-    }
-}

@@ -6,11 +6,12 @@ import Link from "next/link";
 import ReactPaginate from "react-paginate";
 
 interface Event {
+  id: string;
   title: string;
   image: string;
   date: string;
   document: string;  // Add the document field
-  link: string;
+  link?: string;
 }
 
 interface EventPageProps {
@@ -24,8 +25,10 @@ const EventPage: React.FC<EventPageProps> = ({ events = [] }) => {
   // If events is empty, handle gracefully
   if (!events || events.length === 0) {
     return (
-      <div className="text-center mt-8">
-        <p>No events available at the moment.</p>
+      <div className="rounded-3xl bg-background/60 p-6 text-center ring-1 ring-border/60">
+        <p className="text-sm text-muted-foreground">
+          No events available at the moment.
+        </p>
       </div>
     );
   }
@@ -41,17 +44,27 @@ const EventPage: React.FC<EventPageProps> = ({ events = [] }) => {
 
   return (
     <div>
-      <section className="bg-white dark:bg-gray-900 my-6">
-        <div className="container px-6 py-10 mx-auto">
-          <h1 className="text-2xl font-semibold text-green-800 capitalize lg:text-3xl dark:text-white">
-            Calender of Events
-          </h1>
+      <section className="rounded-3xl bg-background/70 p-6 ring-1 ring-border/60 backdrop-blur md:p-10">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-emerald-900/80">
+              EVENTS
+            </p>
+            <h2 className="mt-2 text-balance font-[var(--font-display)] text-3xl text-foreground md:text-4xl">
+              Calendar of Events
+            </h2>
+          </div>
+          <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
+            Browse upcoming and recent NECF events. Click through to view details and
+            supporting documents.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
             {paginatedEvents.map((event: Event) => (
               <EventCard
-              id={event.title}
-                key={event.title}
+                id={event.id}
+                key={event.id}
                 title={event.title}
                 image={event.image}
                 date={event.date}
@@ -71,22 +84,21 @@ const EventPage: React.FC<EventPageProps> = ({ events = [] }) => {
               marginPagesDisplayed={2}
               pageRangeDisplayed={3}
               onPageChange={handlePageChange}
-              containerClassName={"flex space-x-4"}
-              pageClassName={"px-4 py-2 border border-gray-300 rounded-md"}
-              activeClassName={"bg-green-600 text-white"}
-              previousClassName={"px-4 py-2 border border-gray-300 rounded-md"}
-              nextClassName={"px-4 py-2 border border-gray-300 rounded-md"}
+              containerClassName={"flex flex-wrap gap-2"}
+              pageClassName={"px-4 py-2 rounded-md ring-1 ring-border/60 bg-background/60"}
+              activeClassName={"!bg-emerald-700 !text-white"}
+              previousClassName={"px-4 py-2 rounded-md ring-1 ring-border/60 bg-background/60"}
+              nextClassName={"px-4 py-2 rounded-md ring-1 ring-border/60 bg-background/60"}
             />
           </div>
 
           {/* View more link */}
           <Link
-            className="px-4 py-3 text-white rounded-md text-sm bg-green-600 hover:bg-green-500 m-6"
+            className="mt-8 inline-flex w-fit rounded-xl bg-emerald-700 px-5 py-3 text-sm font-medium text-white hover:bg-emerald-600"
             href={"/programs"}
           >
             View more
           </Link>
-        </div>
       </section>
     </div>
   );

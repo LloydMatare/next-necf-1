@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { SiSecurityscorecard } from "react-icons/si";
 import { MdOutlineManageAccounts, MdAllInclusive } from "react-icons/md";
@@ -5,50 +7,79 @@ import { MdOutlineIntegrationInstructions } from "react-icons/md";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { IoIosPeople } from "react-icons/io";
 
-function TopSection() {
+type TopSectionItem = {
+  icon: React.ReactNode;
+  label: string;
+};
+
+type TopSectionProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  icon?: React.ReactNode;
+  items?: TopSectionItem[];
+};
+
+function TopSection({
+  eyebrow = "PRINCIPLES",
+  title = "Core Values",
+  description = "The standards we hold ourselves to in every engagement and programme.",
+  icon = <SiSecurityscorecard size={30} color="white" />,
+  items = [
+    { icon: <IoIosPeople size={20} color="white" />, label: "Teamwork" },
+    {
+      icon: <MdOutlineManageAccounts size={20} color="white" />,
+      label: "Accountability",
+    },
+    { icon: <MdAllInclusive size={20} color="white" />, label: "Inclusivity" },
+    {
+      icon: <RxTransparencyGrid size={20} color="white" />,
+      label: "Transparency",
+    },
+    {
+      icon: <MdOutlineIntegrationInstructions size={20} color="white" />,
+      label: "Integrity",
+    },
+    { icon: <MdAllInclusive size={20} color="white" />, label: "Innovation" },
+  ],
+}: TopSectionProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 w-[90%] h-full py-10 bg-green-600 rounded-lg mx-auto -translate-y-32 ">
-      <div className="col-span-1  flex flex-col items-center justify-center">
-        <SiSecurityscorecard size={78} color="white" className=" w-32 h-32" />
-        <h1 className="text-3xl font-semibold text-white py-4">Core Values</h1>
-      </div>
-      <div className="col-span-2 ">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <IoIosPeople size={34} color="white" className="w-14 h-14" />
-            <p className="text-white">Team Work</p>
+    <section className="w-full px-4 md:px-8 lg:px-12">
+      <div className="grid gap-6 rounded-3xl bg-emerald-950 p-6 text-white ring-1 ring-emerald-900/40 md:grid-cols-12 md:items-center md:p-8">
+        <div className="md:col-span-4">
+          <div className="flex items-center gap-4">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10">
+              {icon}
+            </div>
+            <div>
+              <p className="text-xs font-semibold tracking-widest text-white/70">
+                {eyebrow}
+              </p>
+              <h2 className="mt-1 font-[var(--font-display)] text-2xl leading-tight">
+                {title}
+              </h2>
+            </div>
           </div>
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <MdOutlineManageAccounts
-              size={34}
-              color="white"
-              className="w-14 h-14"
-            />
-            <p className="text-white">Accountability</p>
-          </div>{" "}
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <MdAllInclusive size={34} color="white" className="w-14 h-14" />
-            <p className="text-white">Inclusively</p>
-          </div>{" "}
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <RxTransparencyGrid size={34} color="white" className="w-14 h-14" />
-            <p className="text-white">Transparency</p>
-          </div>{" "}
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <MdOutlineIntegrationInstructions
-              size={34}
-              color="white"
-              className="w-14 h-14"
-            />
-            <p className="text-white">Integrity</p>
-          </div>{" "}
-          <div className="flex flex-col items-center justify-center p-4 hover:shadow-2xl">
-            <MdAllInclusive size={34} color="white" className="w-14 h-14" />
-            <p className="text-white">Innovativeness</p>
-          </div>{" "}
+          <p className="mt-4 text-sm text-white/75">
+            {description}
+          </p>
+        </div>
+
+        <div className="grid gap-3 md:col-span-8 md:grid-cols-3">
+          {items.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10"
+            >
+              <div className="flex items-center gap-3">
+                {item.icon}
+                <p className="text-sm font-medium">{item.label}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

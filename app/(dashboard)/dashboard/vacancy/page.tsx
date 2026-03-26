@@ -1,16 +1,6 @@
 import CreateButton from "@/components/createButton";
 import getVacancies from "@/lib/vacancy/getVacancies";
-import React, { useEffect } from "react";
 import VacanciesCard from "./_components/vacanciesCard";
-import { connectToDB } from "@/lib/connectToDB";
-import Vacancy from "@/models/vacancy";
-
-
-// export async function loadVacancy() {
-//   await connectToDB()
-//   const vacancies = await Vacancy.find()
-//   return vacancies
-// }
 
 async function VacancyPage() {
   const vacancies = await getVacancies();

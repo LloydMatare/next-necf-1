@@ -1,7 +1,12 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { connectToDB } from "@/lib/connectToDB";
+import User from "@/models/user";
+import { verifyPassword } from "@/lib/auth/password";
 
 export const options: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,50 +23,48 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // Hardcoded user for authentication
-        const user = {
-          id: "42",
-          name: "admin",
-          password: "necf2024",
-          role: "admin",
-        };
+        const username = (credentials?.username || "").trim();
+        const password = credentials?.password || "";
 
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
-          return {
-            id: user.id,
-            name: user.name,
-            role: user.role,
-          };
-        } else {
-          return null;
-        }
+        if (!username || !password) return null;
+
+        await connectToDB();
+        const user = await User.findOne({ username }).lean();
+        if (!user) return null;
+
+        const ok = await verifyPassword(password, {
+          saltHex: user.passwordSalt,
+          hashHex: user.passwordHash,
+        });
+        if (!ok) return null;
+
+        return {
+          id: user._id.toString(),
+          name: user.username,
+          role: user.role,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // Ensure ID is included
-        token.name = user.name; // Include name in the token
-        token.role = user.role; // Include role
+        token.id = user.id;
+        token.name = user.name;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id as string;
-        //@ts-ignore
-        session.user.name = token.name as string; // Ensure name is added
-        session.user.role = token.role as string; // Ensure role is added
+        session.user.name = token.name as string;
+        session.user.role = token.role as string;
       }
       return session;
     },
   },
   pages: {
     signIn: "/login",
-    signOut: "/register",
   },
 };

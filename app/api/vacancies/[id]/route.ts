@@ -2,11 +2,14 @@ import { connectToDB } from "@/lib/connectToDB";
 import Vacancy from "@/models/vacancy";
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const vacancy = await Vacancy.findById(params.id)
+        const { id } = await params
+        const vacancy = await Vacancy.findById(id)
 
         if (!vacancy) {
             return NextResponse.json(
@@ -25,12 +28,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const vacancyUpdated = await Vacancy.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const vacancyUpdated = await Vacancy.findByIdAndUpdate(id, body)
 
         if (!vacancyUpdated) {
             return NextResponse.json(
@@ -49,11 +55,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const vacancy = await Vacancy.findByIdAndDelete(params.id)
+        const { id } = await params
+        const vacancy = await Vacancy.findByIdAndDelete(id)
 
         if (!vacancy) {
             return NextResponse.json(

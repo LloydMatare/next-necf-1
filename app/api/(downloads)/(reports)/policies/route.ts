@@ -19,25 +19,3 @@ export async function GET() {
     const policy = await Policy.find()
     return NextResponse.json({ policy })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const policy = await Policy.findByIdAndDelete(params.id)
-
-        if (!policy) {
-            return NextResponse.json(
-                {
-                    message: "policy not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(policy)
-
-    } catch (error) {
-        return NextResponse.json({ message: "policy error" }, { status: 400 })
-    }
-}

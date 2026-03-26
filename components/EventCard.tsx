@@ -1,9 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RegisterDialog from "./RegisterDialog";
 import { MdTimer } from "react-icons/md";
-import { Download, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 
 interface EventProps {
   id: string;
@@ -76,65 +78,71 @@ const EventCard = ({ id, image, title, date, link, document: docUrl }: EventProp
   };
 
   return (
-    <div className="lg:flex gap-6 border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-      <img
-        className="object-cover w-full h-56 rounded-lg lg:w-64"
-        src={image}
-        alt={title}
-        width={300}
-        height={300}
-        loading="lazy"
-      />
-
-      <div className="flex flex-col justify-between py-4 lg:py-0 w-full">
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
-            {title}
-          </h3>
-          
-          {docUrl && (
-            <div className="mt-3 flex flex-col gap-2">
-              <div className="flex gap-3 items-center">
-                <Button 
-                  variant="outline"
-                  size="sm"
-                  onClick={handleViewPdf}
-                  disabled={isLoading}
-                >
-                  <FileText className="mr-2 h-4 w-4" />
-                  {docUrl.includes('.pdf') ? 'Resolutions' : 'Open File'}
-                </Button>
-                
-                {/* <Button 
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  disabled={isLoading}
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Download
-                </Button> */}
-              </div>
-              
-              {error && (
-                <p className="text-red-500 text-sm mt-1">{error}</p>
-              )}
-            </div>
-          )}
+    <article className="group overflow-hidden rounded-3xl bg-background/60 ring-1 ring-border/60 transition hover:bg-background/70">
+      <div className="relative">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/10">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition duration-500 group-hover:scale-[1.02]"
+          />
         </div>
 
-        <div className="mt-4 flex justify-between items-center">
+        <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 text-xs text-white ring-1 ring-white/10 backdrop-blur">
+          <MdTimer className="text-sm" />
+          {formattedDate}
+        </div>
+      </div>
+
+      <div className="space-y-4 p-5">
+        <div className="space-y-2">
+          <h3 className="text-balance font-[var(--font-display)] text-2xl leading-tight text-foreground">
+            {title}
+          </h3>
+          {link ? (
+            <Link
+              href={link}
+              target="_blank"
+              className="text-sm font-medium text-emerald-700 hover:text-emerald-600"
+            >
+              Learn more
+            </Link>
+          ) : null}
+        </div>
+
+        {docUrl ? (
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-xl"
+                onClick={handleViewPdf}
+                disabled={isLoading}
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                {docUrl.includes(".pdf") ? "Resolutions" : "Open File"}
+              </Button>
+            </div>
+            {error ? (
+              <p className="text-sm text-red-600">{error}</p>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
           <Button
             onClick={() => setIsDialogOpen(true)}
-            className="bg-green-600 hover:bg-green-700"
+            className="rounded-xl bg-emerald-700 hover:bg-emerald-600"
           >
             Register
           </Button>
 
-          <span className="text-sm text-gray-500 dark:text-gray-300 flex items-center">
-            <MdTimer className="mr-1" />
-            {formattedDate}
-          </span>
+          <p className="text-xs text-muted-foreground">
+            Click register to submit company and delegate details.
+          </p>
         </div>
       </div>
 
@@ -143,7 +151,7 @@ const EventCard = ({ id, image, title, date, link, document: docUrl }: EventProp
         onClose={() => setIsDialogOpen(false)}
         eventTitle={title}
       />
-    </div>
+    </article>
   );
 };
 

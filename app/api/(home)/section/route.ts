@@ -18,25 +18,3 @@ export async function GET() {
     const section = await Section.find()
     return NextResponse.json({ section })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const section = await Section.findByIdAndDelete(params.id)
-
-        if (!section) {
-            return NextResponse.json(
-                {
-                    message: "Section not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(section)
-
-    } catch (error) {
-        return NextResponse.json({ message: "Section error" }, { status: 400 })
-    }
-}

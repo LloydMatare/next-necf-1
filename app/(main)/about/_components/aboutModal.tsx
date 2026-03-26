@@ -1,51 +1,109 @@
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
-import { X } from "lucide-react"
+'use client';
+
+import * as React from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import Image from "next/image"
 
-interface AboutProps {
-  id?: number
-  image: string
-}
+type TriggerVariant = "square" | "featured";
 
-const AboutImage = ({ image }: AboutProps) => {
-  return (
-    <div className=''>
-      <Image
-        width={300}
-        height={300}
-        className="h-auto max-w-full rounded-lg hover:opacity-70 cursor-pointer"
-        src={image}
-        alt=""
-      />
-    </div>
-  )
-}
+type AboutImageProps = Omit<
+  React.ComponentPropsWithoutRef<"button">,
+  "children"
+> & {
+  image: string;
+  alt?: string;
+  variant?: TriggerVariant;
+  kicker?: string;
+  subtitle?: string;
+};
 
-export function AboutModal({ src, title }: { src: string, title: string }) {
+const AboutImage = React.forwardRef<HTMLButtonElement, AboutImageProps>(
+  ({ image, alt, variant = "square", kicker, subtitle, className, type, ...props }, ref) => {
+    return (
+      <button
+        {...props}
+        ref={ref}
+        type={type ?? "button"}
+        aria-label={alt || "Open image"}
+        className={[
+          "group relative block w-full overflow-hidden rounded-2xl text-left ring-1 ring-border/60 focus:outline-none focus:ring-2 focus:ring-emerald-500/40",
+          className,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <Image
+          width={variant === "featured" ? 900 : 800}
+          height={variant === "featured" ? 700 : 800}
+          className={
+            variant === "featured"
+              ? "aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02] group-hover:opacity-95"
+              : "aspect-square w-full object-cover transition duration-300 group-hover:scale-[1.03] group-hover:opacity-90"
+          }
+          src={image}
+          alt={alt || "Gallery image"}
+        />
+        <div
+          className={
+            variant === "featured"
+              ? "pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"
+              : "pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
+          }
+        />
+        {variant === "featured" ? (
+          <div className="pointer-events-none absolute bottom-0 left-0 p-5">
+            {kicker ? (
+              <p className="text-sm font-medium text-white">{kicker}</p>
+            ) : null}
+            {subtitle ? (
+              <p className="text-xs text-white/80">{subtitle}</p>
+            ) : null}
+          </div>
+        ) : null}
+      </button>
+    );
+  }
+);
+AboutImage.displayName = "AboutImage";
+
+export function AboutModal({
+  src,
+  title,
+  triggerVariant = "square",
+  triggerKicker,
+  triggerSubtitle,
+}: {
+  src: string;
+  title: string;
+  triggerVariant?: TriggerVariant;
+  triggerKicker?: string;
+  triggerSubtitle?: string;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <AboutImage image={src} />
+        <AboutImage
+          image={src}
+          alt={title}
+          variant={triggerVariant}
+          kicker={triggerKicker}
+          subtitle={triggerSubtitle}
+        />
       </DialogTrigger>
-      <DialogContent className="w-full h-full max-w-none p-0 m-0 flex items-center justify-center bg-black bg-opacity-20">
-        <div className="w-1/2 h-1/2 flex justify-center items-center">
+      <DialogContent className="max-w-5xl bg-transparent p-0 ring-0 shadow-none sm:max-w-5xl">
+        <figure className="relative overflow-hidden rounded-2xl bg-black/60 ring-1 ring-white/10">
           <Image
             src={src}
             alt={title}
-            width={0}
-            height={0}
-            sizes="(max-width: 768px) 50vw, 50vw"
-            className="w-full h-full object-contain rounded-lg"
+            width={1800}
+            height={1200}
+            sizes="(max-width: 768px) 92vw, 900px"
+            className="max-h-[75vh] w-full object-contain"
           />
-        </div>
-        <div className="w-full absolute bottom-10 text-center text-white">
-          <p className="text-2xl font-semibold">{title}</p>
-        </div>
-        <DialogFooter className="absolute top-4 right-4">
-          <DialogClose asChild>
-            <button className="text-white p-2 rounded-full bg-black bg-opacity-60 hover:bg-opacity-80"><X/></button>
-          </DialogClose>
-        </DialogFooter>
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-5 py-4">
+            <p className="text-sm font-medium text-white">{title}</p>
+          </figcaption>
+        </figure>
       </DialogContent>
     </Dialog>
   )

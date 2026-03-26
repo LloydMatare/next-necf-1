@@ -4,11 +4,14 @@ import Download from "@/models/(downloads)/download";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const download = await Download.findById(params.id)
+        const { id } = await params
+        const download = await Download.findById(id)
 
         if (!download) {
             return NextResponse.json(
@@ -42,12 +45,15 @@ export async function POST(request: Request) {
   }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const downloadUpdated = await Download.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const downloadUpdated = await Download.findByIdAndUpdate(id, body)
 
         if (!downloadUpdated) {
             return NextResponse.json(
@@ -66,11 +72,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const download = await Download.findByIdAndDelete(params.id)
+        const { id } = await params
+        const download = await Download.findByIdAndDelete(id)
 
         if (!download) {
             return NextResponse.json(

@@ -18,25 +18,3 @@ export async function GET() {
     const hero = await Hero.find()
     return NextResponse.json({ hero })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const hero = await Hero.findByIdAndDelete(params.id)
-
-        if (!hero) {
-            return NextResponse.json(
-                {
-                    message: "hero not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(hero)
-
-    } catch (error) {
-        return NextResponse.json({ message: "hero error" }, { status: 400 })
-    }
-}

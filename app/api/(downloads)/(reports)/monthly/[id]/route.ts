@@ -4,11 +4,14 @@ import Monthly from "@/models/(downloads)/monthly";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const monthly = await Monthly.findById(params.id)
+        const { id } = await params
+        const monthly = await Monthly.findById(id)
 
         if (!monthly) {
             return NextResponse.json(
@@ -27,12 +30,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const monthlyUpdated = await Monthly.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const monthlyUpdated = await Monthly.findByIdAndUpdate(id, body)
 
         if (!monthlyUpdated) {
             return NextResponse.json(
@@ -51,11 +57,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const monthly = await Monthly.findByIdAndDelete(params.id)
+        const { id } = await params
+        const monthly = await Monthly.findByIdAndDelete(id)
 
         if (!monthly) {
             return NextResponse.json(

@@ -19,25 +19,3 @@ export async function GET() {
     const service = await Service.find()
     return NextResponse.json({ service })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const service = await Service.findByIdAndDelete(params.id)
-
-        if (!service) {
-            return NextResponse.json(
-                {
-                    message: "Service not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(service)
-
-    } catch (error) {
-        return NextResponse.json({ message: "Service error" }, { status: 400 })
-    }
-}

@@ -4,11 +4,14 @@ import Quarterly from "@/models/(downloads)/quarterly";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const quarterly = await Quarterly.findById(params.id)
+        const { id } = await params
+        const quarterly = await Quarterly.findById(id)
 
         if (!quarterly) {
             return NextResponse.json(
@@ -27,12 +30,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const quarterlyUpdated = await Quarterly.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const quarterlyUpdated = await Quarterly.findByIdAndUpdate(id, body)
 
         if (!quarterlyUpdated) {
             return NextResponse.json(
@@ -51,11 +57,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const quarterly = await Quarterly.findByIdAndDelete(params.id)
+        const { id } = await params
+        const quarterly = await Quarterly.findByIdAndDelete(id)
 
         if (!quarterly) {
             return NextResponse.json(

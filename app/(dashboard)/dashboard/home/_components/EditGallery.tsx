@@ -25,7 +25,7 @@ function EditHero({ hero }) {
   async function handleDelete() {
     try {
 
-      const res = await fetch(`/api/gallery/${hero._id}`, {
+      const res = await fetch(`/api/hero/${hero._id}`, {
         method: 'DELETE'
       })
 

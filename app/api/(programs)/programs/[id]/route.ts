@@ -4,11 +4,14 @@ import Program from "@/models/(programs)/program";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const program = await Program.findById(params.id)
+        const { id } = await params
+        const program = await Program.findById(id)
 
         if (!program) {
             return NextResponse.json(
@@ -27,12 +30,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const programUpdated = await Program.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const programUpdated = await Program.findByIdAndUpdate(id, body)
 
         if (!programUpdated) {
             return NextResponse.json(
@@ -51,11 +57,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const program = await Program.findByIdAndDelete(params.id)
+        const { id } = await params
+        const program = await Program.findByIdAndDelete(id)
 
         if (!program) {
             return NextResponse.json(

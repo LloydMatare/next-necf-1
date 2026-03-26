@@ -7,11 +7,14 @@ import Section from "@/models/(home)/section";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const section = await Section.findById(params.id)
+        const { id } = await params
+        const section = await Section.findById(id)
 
         if (!section) {
             return NextResponse.json(
@@ -30,12 +33,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const sectionUpdated = await Section.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const sectionUpdated = await Section.findByIdAndUpdate(id, body)
 
         if (!sectionUpdated) {
             return NextResponse.json(
@@ -54,11 +60,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const section = await Section.findByIdAndDelete(params.id)
+        const { id } = await params
+        const section = await Section.findByIdAndDelete(id)
 
         if (!section) {
             return NextResponse.json(

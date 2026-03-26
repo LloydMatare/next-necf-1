@@ -1,12 +1,15 @@
-import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import Event from "@/models/events/events";
 
-//@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const event = await db.event.findUnique({
-            where: { id },
-        });
+        await connectToDB();
+        const { id } = await params;
+        const event = await Event.findById(id).lean();
         if (!event) {
             return NextResponse.json(
                 {
@@ -32,16 +35,17 @@ export async function GET(request, { params: { id } }) {
 }
 
 
-//@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        await connectToDB();
+        const { id } = await params;
+        const { title, subtitle, description, image } = await request.json()
+        const data = { title, subtitle, description, image }
 
-        const updatedEvent = await db.event.update({
-            where: { id },
-            data
-        });
+        const updatedEvent = await Event.findByIdAndUpdate(id, data, { new: true }).lean();
         if (!updatedEvent) {
             return NextResponse.json(
                 {
@@ -66,13 +70,14 @@ export async function PATCH(request, { params: { id } }) {
     }
 }
 
-//@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-
-        await db.event.delete({
-            where: { id }
-        })
+        await connectToDB();
+        const { id } = await params;
+        await Event.findByIdAndDelete(id);
         return NextResponse.json({
             message: "Event deleted successfully"
         })
@@ -85,4 +90,3 @@ export async function DELETE(request: Request, { params: { id } }) {
         })
     }
 }
-

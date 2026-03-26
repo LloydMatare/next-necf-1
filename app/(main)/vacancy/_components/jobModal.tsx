@@ -1,5 +1,3 @@
-import { Copy } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -18,33 +16,39 @@ export function JobModal() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-green-700 hover:bg-green-400">Apply</Button>
+                <Button className="h-11 rounded-xl bg-emerald-700 hover:bg-emerald-600">
+                    Apply
+                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="w-[min(96vw,560px)] rounded-3xl bg-background/90 p-0 ring-1 ring-border/60 backdrop-blur">
                 <DialogHeader>
-                    <DialogTitle>Send Application</DialogTitle>
+                    <div className="border-b border-border/60 bg-[radial-gradient(900px_420px_at_0%_0%,rgba(16,185,129,0.18),transparent_55%),radial-gradient(900px_420px_at_100%_0%,rgba(163,230,53,0.14),transparent_55%)] px-6 py-6">
+                        <DialogTitle className="font-[var(--font-display)] text-2xl">
+                            Send Application
+                        </DialogTitle>
                     <DialogDescription>
                         Upload your CV and send to apply
                     </DialogDescription>
+                    </div>
                 </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                            Upload
-                        </Label>
-                        <Input
-                            id="file"
-                            type="file"
-                        />
+                <div className="space-y-4 px-6 py-6">
+                    <div className="space-y-2">
+                        <Label htmlFor="file">Upload CV</Label>
+                        <Input id="file" type="file" className="rounded-xl" />
+                        <p className="text-xs text-muted-foreground">
+                            Accepted formats depend on your browser. PDF is recommended.
+                        </p>
                     </div>
                 </div>
-                <DialogFooter className="sm:justify-start">
+                <DialogFooter className="gap-2 px-6 pb-6 sm:justify-start">
                     <DialogClose asChild>
-                        <Button type="button" variant="secondary">
+                        <Button type="button" variant="outline" className="h-11 rounded-xl">
                             Close
                         </Button>
                     </DialogClose>
-                    <Button className="bg-green-600 hover:bg-green-500">Send Application</Button>
+                    <Button className="h-11 rounded-xl bg-emerald-700 hover:bg-emerald-600">
+                        Send Application
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -18,25 +18,3 @@ export async function GET() {
     const tasks = await Event.find()
     return NextResponse.json({ tasks })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const tasks = await Event.findByIdAndDelete(params.id)
-
-        if (!tasks) {
-            return NextResponse.json(
-                {
-                    message: "Event not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(tasks)
-
-    } catch (error) {
-        return NextResponse.json({ message: "event error" }, { status: 400 })
-    }
-}

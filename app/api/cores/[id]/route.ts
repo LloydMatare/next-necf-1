@@ -3,11 +3,14 @@ import Core from "@/models/cores";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const core = await Core.findById(params.id)
+        const { id } = await params
+        const core = await Core.findById(id)
 
         if (!core) {
             return NextResponse.json(
@@ -26,12 +29,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const coreUpdated = await Core.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const coreUpdated = await Core.findByIdAndUpdate(id, body)
 
         if (!coreUpdated) {
             return NextResponse.json(
@@ -50,11 +56,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const core = await Core.findByIdAndDelete(params.id)
+        const { id } = await params
+        const core = await Core.findByIdAndDelete(id)
 
         if (!core) {
             return NextResponse.json(

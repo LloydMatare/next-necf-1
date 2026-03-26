@@ -46,28 +46,3 @@ export async function GET() {
         )
     }
 }
-//@ts-ignore
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-    try {
-        await connectToDB()
-        const deletedEvent = await MainEvent.findByIdAndDelete(params.id)
-
-        if (!deletedEvent) {
-            return NextResponse.json(
-                { message: "Event not found" },
-                { status: 404 }
-            )
-        }
-
-        return NextResponse.json(
-            { message: "Event deleted successfully" },
-            { status: 200 }
-        )
-    } catch (error) {
-        console.error("Error deleting event:", error)
-        return NextResponse.json(
-            { message: "Internal server error" },
-            { status: 500 }
-        )
-    }
-}

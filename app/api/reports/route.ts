@@ -1,10 +1,12 @@
-import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import Report from "@/models/(downloads)/report";
 
 
 export async function GET() {
     try {
-        const reports = await db.report.findMany()
+        await connectToDB();
+        const reports = await Report.find().sort({ createdAt: -1 }).lean();
 
         return NextResponse.json(reports, {
             status: 201
@@ -21,12 +23,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        await connectToDB();
+        const { title, document, date } = await request.json()
+        const data = { title, document, date }
 
-        const reportData = await db.report.create({ data })
-
-        console.log(reportData);
+        const reportData = await Report.create(data)
 
         return NextResponse.json(reportData, {
             status: 201

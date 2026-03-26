@@ -1,28 +1,31 @@
-import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import Monthly from "@/models/(downloads)/monthly";
 
-//@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const team = await db.team.findUnique({
-            where: { id },
-        });
-        if (!team) {
+        await connectToDB();
+        const { id } = await params;
+        const monthly = await Monthly.findById(id).lean();
+        if (!monthly) {
             return NextResponse.json(
                 {
-                    message: "Team NOT FOUND",
+                    message: "Monthly NOT FOUND",
                 },
                 {
                     status: 404,
                 }
             );
         }
-        return NextResponse.json(team);
+        return NextResponse.json(monthly);
     } catch (error) {
-        console.log("Failed to fetch Contact", error);
+        console.log("Failed to fetch Monthly", error);
         return NextResponse.json(
             {
-                message: "Failed to fetch contact",
+                message: "Failed to fetch monthly",
             },
             {
                 status: 500,
@@ -32,32 +35,33 @@ export async function GET(request, { params: { id } }) {
 }
 
 
-//@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        await connectToDB();
+        const { id } = await params;
+        const { title, document, date } = await request.json()
+        const data = { title, document, date }
 
-        const updatedTeam = await db.team.update({
-            where: { id },
-            data
-        });
-        if (!updatedTeam) {
+        const updatedMonthly = await Monthly.findByIdAndUpdate(id, data, { new: true }).lean();
+        if (!updatedMonthly) {
             return NextResponse.json(
                 {
-                    message: "Contact NOT FOUND",
+                    message: "Monthly NOT FOUND",
                 },
                 {
                     status: 404,
                 }
             );
         }
-        return NextResponse.json(updatedTeam);
+        return NextResponse.json(updatedMonthly);
     } catch (error) {
-        console.log("Failed to update Team", error);
+        console.log("Failed to update Monthly", error);
         return NextResponse.json(
             {
-                message: "Failed to update team",
+                message: "Failed to update monthly",
             },
             {
                 status: 500,
@@ -66,23 +70,23 @@ export async function PATCH(request, { params: { id } }) {
     }
 }
 
-//@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-
-        await db.team.delete({
-            where: { id }
-        })
+        await connectToDB();
+        const { id } = await params;
+        await Monthly.findByIdAndDelete(id);
         return NextResponse.json({
-            message: "Team deleted successfully"
+            message: "Monthly deleted successfully"
         })
     } catch (error) {
         console.log('Error while deleting', error);
         return NextResponse.json({
-            message: "Failed to delete member",
+            message: "Failed to delete monthly",
         }, {
             status: 500
         })
     }
 }
-

@@ -1,12 +1,11 @@
 import React from 'react'
-import MainLayout from '@/components/layout'
 import TeamForm from './_components/TeamForm'
 
 function Team() {
     return (
-        <MainLayout>
+        <div className="space-y-10">
             <TeamForm />
-        </MainLayout>
+        </div>
     )
 }
 

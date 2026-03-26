@@ -60,16 +60,25 @@ export default function Sponsors() {
     return <div className="text-center py-12">No sponsors to display</div>;
 
   return (
-    <section className="bg-gray-50 py-12 md:py-16">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
-          Our Partners & Sponsors
-        </h2>
+    <section className="rounded-3xl bg-background/70 p-6 ring-1 ring-border/60 backdrop-blur md:p-10">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-xs font-semibold tracking-widest text-emerald-900/80">
+            PARTNERS
+          </p>
+          <h2 className="mt-2 text-balance font-[var(--font-display)] text-3xl text-foreground md:text-4xl">
+            Partners and Sponsors
+          </h2>
+        </div>
+        <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
+          Organizations supporting NECF’s convening, research, and programmes.
+        </p>
+      </div>
 
-        <div className="relative overflow-hidden" ref={containerRef}>
+        <div className="relative mt-10 overflow-hidden" ref={containerRef}>
           {/* Gradient fade effects */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-10" />
+          <div className="absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background/90 to-transparent" />
+          <div className="absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background/90 to-transparent" />
 
           <motion.div
             className="flex gap-8 md:gap-16 items-center"
@@ -78,7 +87,7 @@ export default function Sponsors() {
           >
             {[...sponsors, ...sponsors].map((sponsor, index) => (
               <div key={`${sponsor.id}-${index}`} className="flex-shrink-0">
-                <div className="h-16 w-32 md:h-20 md:w-40 relative transition-all duration-300">
+                <div className="relative h-16 w-32 rounded-2xl bg-background/60 p-3 ring-1 ring-border/60 transition-all duration-300 md:h-20 md:w-40">
                   <Image
                     src={sponsor.logo}
                     alt={sponsor.name}
@@ -91,7 +100,6 @@ export default function Sponsors() {
             ))}
           </motion.div>
         </div>
-      </div>
     </section>
   );
 }

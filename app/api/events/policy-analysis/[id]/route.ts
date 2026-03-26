@@ -1,28 +1,31 @@
-import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import Policy from "@/models/(downloads)/policy";
 
-//@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const team = await db.team.findUnique({
-            where: { id },
-        });
-        if (!team) {
+        await connectToDB();
+        const { id } = await params;
+        const policy = await Policy.findById(id).lean();
+        if (!policy) {
             return NextResponse.json(
                 {
-                    message: "Team NOT FOUND",
+                    message: "Policy NOT FOUND",
                 },
                 {
                     status: 404,
                 }
             );
         }
-        return NextResponse.json(team);
+        return NextResponse.json(policy);
     } catch (error) {
-        console.log("Failed to fetch Contact", error);
+        console.log("Failed to fetch Policy", error);
         return NextResponse.json(
             {
-                message: "Failed to fetch contact",
+                message: "Failed to fetch policy",
             },
             {
                 status: 500,
@@ -32,32 +35,33 @@ export async function GET(request, { params: { id } }) {
 }
 
 
-//@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        await connectToDB();
+        const { id } = await params;
+        const { title, document, date } = await request.json()
+        const data = { title, document, date }
 
-        const updatedTeam = await db.team.update({
-            where: { id },
-            data
-        });
-        if (!updatedTeam) {
+        const updatedPolicy = await Policy.findByIdAndUpdate(id, data, { new: true }).lean();
+        if (!updatedPolicy) {
             return NextResponse.json(
                 {
-                    message: "Contact NOT FOUND",
+                    message: "Policy NOT FOUND",
                 },
                 {
                     status: 404,
                 }
             );
         }
-        return NextResponse.json(updatedTeam);
+        return NextResponse.json(updatedPolicy);
     } catch (error) {
-        console.log("Failed to update Team", error);
+        console.log("Failed to update Policy", error);
         return NextResponse.json(
             {
-                message: "Failed to update team",
+                message: "Failed to update policy",
             },
             {
                 status: 500,
@@ -66,23 +70,23 @@ export async function PATCH(request, { params: { id } }) {
     }
 }
 
-//@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-
-        await db.team.delete({
-            where: { id }
-        })
+        await connectToDB();
+        const { id } = await params;
+        await Policy.findByIdAndDelete(id);
         return NextResponse.json({
-            message: "Team deleted successfully"
+            message: "Policy deleted successfully"
         })
     } catch (error) {
         console.log('Error while deleting', error);
         return NextResponse.json({
-            message: "Failed to delete member",
+            message: "Failed to delete policy",
         }, {
             status: 500
         })
     }
 }
-

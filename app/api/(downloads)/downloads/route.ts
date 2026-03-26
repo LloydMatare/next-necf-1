@@ -19,25 +19,3 @@ export async function GET() {
     const download = await Download.find()
     return NextResponse.json({ download })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const download = await Download.findByIdAndDelete(params.id)
-
-        if (!download) {
-            return NextResponse.json(
-                {
-                    message: "download not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(download)
-
-    } catch (error) {
-        return NextResponse.json({ message: "download error" }, { status: 400 })
-    }
-}

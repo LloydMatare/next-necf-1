@@ -4,11 +4,14 @@ import Conference from "@/models/(downloads)/conference";
 
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function GET(request, { params }) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const conference = await Conference.findById(params.id)
+        const { id } = await params
+        const conference = await Conference.findById(id)
 
         if (!conference) {
             return NextResponse.json(
@@ -27,12 +30,15 @@ export async function GET(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     const body = await request.json()
     await connectToDB()
     try {
-        const conferenceUpdated = await Conference.findByIdAndUpdate(params.id, body)
+        const { id } = await params
+        const conferenceUpdated = await Conference.findByIdAndUpdate(id, body)
 
         if (!conferenceUpdated) {
             return NextResponse.json(
@@ -51,11 +57,14 @@ export async function PUT(request, { params }) {
 }
 
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     await connectToDB()
     try {
-        const conference = await Conference.findByIdAndDelete(params.id)
+        const { id } = await params
+        const conference = await Conference.findByIdAndDelete(id)
 
         if (!conference) {
             return NextResponse.json(

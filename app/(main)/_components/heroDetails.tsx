@@ -9,42 +9,52 @@ import Image from "next/image";
 
 function HeroDetails({ image, title, title2 }: any) {
     return (
-        <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <div className="flex w-full flex-col items-center gap-10 px-4 py-14 md:flex-row md:px-8 lg:px-12">
             <motion.div
                 initial={{ opacity: 0, scale: 0, x: -100 }}
                 whileInView={{ opacity: 1, scale: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
-                className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
+                className="w-full md:w-1/2"
             >
-                <Image
-                    className="object-cover object-center rounded w-full"
-                    alt="hero"
-                    src={image}
-                    width={300}
-                    height={300}
-                />
+                <div className="relative overflow-hidden rounded-2xl ring-1 ring-border/60">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/10 via-transparent to-lime-900/10" />
+                    <Image
+                        className="aspect-[4/3] w-full object-cover"
+                        alt="Background"
+                        src={image}
+                        width={900}
+                        height={675}
+                    />
+                </div>
             </motion.div>
             <motion.div
                 initial={{ opacity: 0, scale: 0, x: 100 }}
                 whileInView={{ opacity: 1, scale: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
-                className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
+                className="w-full md:w-1/2"
             >
-                <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                    BACKGROUND
-                    <br className="hidden lg:inline-block" />
-                </h1>
-                <p className="leading-relaxed">
-                    {title}
-                </p>
-                <p className="my-4 leading-relaxed">
-                    {title2}
-                </p>
-                <div className="flex justify-center">
-                    {/* button */}
-                    <Link href={'/contact'}>
-                        <Button className="bg-green-600 hover:bg-green-500">Contact Us</Button>
-                    </Link>
+                <div className="rounded-2xl bg-background/70 p-6 ring-1 ring-border/60 backdrop-blur">
+                    <p className="text-xs font-semibold tracking-widest text-emerald-900/80">
+                        BACKGROUND
+                    </p>
+                    <h2 className="mt-2 text-balance font-[var(--font-display)] text-3xl leading-tight text-foreground md:text-4xl">
+                        A platform for dialogue, consensus, and national progress.
+                    </h2>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                        {title}
+                    </p>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                        {title2}
+                    </p>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                        <Button asChild className="bg-emerald-700 hover:bg-emerald-600">
+                            <Link href="/contact">Contact Us</Link>
+                        </Button>
+                        <Button asChild variant="outline">
+                            <Link href="/about">Learn More</Link>
+                        </Button>
+                    </div>
                 </div>
             </motion.div>
         </div>

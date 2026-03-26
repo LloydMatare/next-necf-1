@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
 import "./globals.css";
-import EventEmitter from "events";
 import SessionWrapper from "@/components/SessionWrapper";
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: "NECF",
@@ -18,13 +18,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const emitter = new EventEmitter();
-  emitter.setMaxListeners(20);
-
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="antialiased">
+      <body className="font-sans">
         <SessionWrapper>{children}</SessionWrapper>
+        <Toaster />
       </body>
     </html>
   );

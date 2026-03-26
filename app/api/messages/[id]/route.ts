@@ -2,9 +2,11 @@ import { connectToDB } from "@/lib/connectToDB";
 import Message from "../../../../models/messages"; // Correct path
 import { NextRequest, NextResponse } from "next/server";
 
-//@ts-ignore
-export async function DELETE(request, { params }) {
-  const { id } = params; // Extract id from params
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   await connectToDB();
 
   try {

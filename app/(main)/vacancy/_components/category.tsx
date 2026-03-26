@@ -13,35 +13,33 @@ interface CategoryProps {
 
 const CategoryCard = ({ children, text }: CategoryProps) => {
     return (
-        <div className="h-56 w-52 bg-green-100 hover:bg-green-200 shadow-lg bottom-b bottom-red-500 rounded flex flex-col items-center justify-center gap-4">
-            <div className="text-7xl text-green-800">
-                {children}
+        <div className="group flex min-h-44 w-full flex-col items-center justify-center gap-4 rounded-3xl bg-background/60 p-6 text-center ring-1 ring-border/60 transition hover:bg-background/70">
+            <div className="flex size-16 items-center justify-center rounded-2xl bg-emerald-700/10 text-emerald-800 ring-1 ring-emerald-600/20 transition group-hover:scale-[1.02]">
+                <div className="text-3xl">{children}</div>
             </div>
-            <p className="text-sm font-semibold text-green-800">{text}</p>
+            <p className="text-sm font-semibold text-foreground">{text}</p>
         </div>
     )
 }
 
 function Category() {
     return (
-        <div className='flex items-center justify-center'>
-            <div className="flex flex-wrap gap-4">
-                <CategoryCard text='Business Management'>
-                    <BsBriefcaseFill />
-                </CategoryCard>
-                <CategoryCard text='Accountants'>
-                    <FaMoneyBillWheat />
-                </CategoryCard>
-                <CategoryCard text='Economists'>
-                    <BsPersonFillUp />
-                </CategoryCard>
-                <CategoryCard text='I.C.T'>
-                    <GrTechnology />
-                </CategoryCard>
-                <CategoryCard text='Secretaries'>
-                    <SiGooglemarketingplatform />
-                </CategoryCard>
-            </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <CategoryCard text='Business Management'>
+                <BsBriefcaseFill />
+            </CategoryCard>
+            <CategoryCard text='Accountants'>
+                <FaMoneyBillWheat />
+            </CategoryCard>
+            <CategoryCard text='Economists'>
+                <BsPersonFillUp />
+            </CategoryCard>
+            <CategoryCard text='I.C.T'>
+                <GrTechnology />
+            </CategoryCard>
+            <CategoryCard text='Secretaries'>
+                <SiGooglemarketingplatform />
+            </CategoryCard>
         </div>
     )
 }

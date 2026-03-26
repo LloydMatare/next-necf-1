@@ -1,8 +1,9 @@
-//@ts-ignore
-export default async function getTestimonial(id) {
-    const res = await fetch(`${process.env.API_ROUTE}/api/testimonial/${id}`, {
-        cache: "no-store",
-    });
-    const section = await res.json();
-    return section;
+import { connectToDB } from "@/lib/connectToDB";
+import Testimonial from "@/models/(home)/testimonial";
+
+export default async function getTestimonial(id: string) {
+  await connectToDB();
+  if (!id) return null;
+  return Testimonial.findById(id).lean();
 }
+

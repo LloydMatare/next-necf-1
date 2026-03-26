@@ -19,20 +19,34 @@ async function VacancyTable() {
     const vacancies = await loadVacancy()
 
     return (
-        <div className='shadow p-4 border'>
+        <div className="space-y-4">
             {
                 vacancies.length === 0 ? (
-                    <div className="text-center text-sm text-slate-400">No vacancies currently...</div>
+                    <div className="rounded-2xl bg-background/60 p-6 text-center text-sm text-muted-foreground ring-1 ring-border/60">
+                        No vacancies currently...
+                    </div>
                 ) :
                     (
                         vacancies.map((vacancy) => (
                             <div
                                 key={vacancy.name}
-                                className="flex items-center justify-between  border-b mb-4">
-                                <div className="space-y-1 mb-4">
-                                    <p className="text-lg font-bold">{vacancy.name}</p>
-                                    <p className="text-sm text-slate-600">{vacancy.jobType}</p>
-                                    <p className="text-sm text-slate-600">{vacancy.dueDate}</p>
+                                className="flex flex-col gap-4 rounded-3xl bg-background/60 p-6 ring-1 ring-border/60 md:flex-row md:items-center md:justify-between">
+                                <div className="space-y-2">
+                                    <p className="text-balance font-[var(--font-display)] text-xl text-foreground md:text-2xl">
+                                        {vacancy.name}
+                                    </p>
+                                    <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                                        {vacancy.jobType ? (
+                                            <span className="rounded-full bg-background/60 px-3 py-1 ring-1 ring-border/60">
+                                                {vacancy.jobType}
+                                            </span>
+                                        ) : null}
+                                        {vacancy.dueDate ? (
+                                            <span className="rounded-full bg-background/60 px-3 py-1 ring-1 ring-border/60">
+                                                Due: {vacancy.dueDate}
+                                            </span>
+                                        ) : null}
+                                    </div>
                                 </div>
                                 <div className="">
                                     <JobModal />

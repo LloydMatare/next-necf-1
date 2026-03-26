@@ -38,7 +38,7 @@ const Header = () => {
 
   const handleLogout = () => {
     console.log("User logged out!");
-    signOut();
+    signOut({ callbackUrl: "/login" });
   };
 
   return (

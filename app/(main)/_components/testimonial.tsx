@@ -8,11 +8,17 @@ async function Testimonial() {
 
     console.log("Testimonials", data);
 
+    const plain = (data || []).map((t: any) => ({
+        title: t?.title ?? "",
+        name: t?.name ?? "",
+        company: t?.company ?? "",
+        position: t?.position ?? "",
+    }));
 
     return (
         <div className="">
             <Slider
-                data={data}
+                data={plain}
             />
         </div>
     )

@@ -20,25 +20,3 @@ export async function GET() {
     const about = await AboutSecond.find()
     return NextResponse.json({ about })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const about = await AboutSecond.findByIdAndDelete(params.id)
-
-        if (!about) {
-            return NextResponse.json(
-                {
-                    message: "about not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(about)
-
-    } catch (error) {
-        return NextResponse.json({ message: "about error" }, { status: 400 })
-    }
-}

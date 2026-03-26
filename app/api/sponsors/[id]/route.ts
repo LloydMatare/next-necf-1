@@ -4,10 +4,14 @@ import Sponsor from "@/models/sponsors";
 import { NextRequest, NextResponse } from "next/server";
 
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
       await connectToDB();
-      const deletedSponsor = await Sponsor.findByIdAndDelete(params.id);
+      const { id } = await params;
+      const deletedSponsor = await Sponsor.findByIdAndDelete(id);
   
       if (!deletedSponsor) {
         return NextResponse.json(
@@ -29,11 +33,14 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
   }
   
-  //@ts-ignore
-  export async function GET(request, { params }) {
+  export async function GET(
+    _request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+  ) {
     await connectToDB();
     try {
-      const sponsor = await Sponsor.findById(params.id);
+      const { id } = await params;
+      const sponsor = await Sponsor.findById(id);
   
       if (!sponsor) {
         return NextResponse.json(
@@ -48,12 +55,15 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
   }
   
-  //@ts-ignore
-  export async function PUT(request, { params }) {
+  export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+  ) {
     const body = await request.json();
     await connectToDB();
     try {
-      const sponsorUpdated = await Sponsor.findByIdAndUpdate(params.id, body, { new: true });
+      const { id } = await params;
+      const sponsorUpdated = await Sponsor.findByIdAndUpdate(id, body, { new: true });
   
       if (!sponsorUpdated) {
         return NextResponse.json(

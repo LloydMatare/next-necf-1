@@ -21,25 +21,3 @@ export async function GET() {
     const milestone = await Milestone.find()
     return NextResponse.json({ milestone })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const milestone = await Milestone.findByIdAndDelete(params.id)
-
-        if (!milestone) {
-            return NextResponse.json(
-                {
-                    message: "milestone not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(milestone)
-
-    } catch (error) {
-        return NextResponse.json({ message: "milestone error" }, { status: 400 })
-    }
-}

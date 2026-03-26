@@ -1,8 +1,9 @@
-//@ts-ignore
-export default async function getSection(id) {
-    const res = await fetch(`${process.env.API_ROUTE}/api/section/${id}`, {
-        cache: "no-store",
-    });
-    const section = await res.json();
-    return section;
+import { connectToDB } from "@/lib/connectToDB";
+import Section from "@/models/(home)/section";
+
+export default async function getSection(id: string) {
+  await connectToDB();
+  if (!id) return null;
+  return Section.findById(id).lean();
 }
+

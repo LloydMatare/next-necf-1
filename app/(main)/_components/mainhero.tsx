@@ -40,11 +40,12 @@ async function MainHero() {
       description: hero[3]?.description
     },
   ]
+    .filter((s) => Boolean(s?.image) && Boolean(s?.title));
 
 
 
   return (
-    <div>
+    <div className="relative">
 
       {/* {
         heros.map((hero: any) => (

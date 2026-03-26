@@ -18,107 +18,85 @@ async function AboutImage() {
     const services = await loadService()
 
     return (
-        <div>
-            <section className="bg-white dark:bg-gray-900">
-                <div className="container px-6 py-10 mx-auto">
-                    <div className="">
-                        <div className="w-full">
-                            <div>
-                                <h1 className="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">explore our <br /> awesome Services</h1>
+        <section className="rounded-3xl bg-background/70 p-6 ring-1 ring-border/60 backdrop-blur md:p-10">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <p className="text-xs font-semibold tracking-widest text-emerald-900/80">
+                        SERVICES
+                    </p>
+                    <h2 className="mt-2 text-balance font-[var(--font-display)] text-3xl text-foreground md:text-4xl">
+                        Explore What We Offer
+                    </h2>
+                </div>
+                <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
+                    Practical support, convening power, and programmes designed to build shared
+                    understanding and actionable outcomes.
+                </p>
+            </div>
 
-                                <div className="mt-2">
-                                    <span className="inline-block w-40 h-1 bg-green-500 rounded-full"></span>
-                                    <span className="inline-block w-3 h-1 ml-1 bg-green-500 rounded-full"></span>
-                                    <span className="inline-block w-1 h-1 ml-1 bg-green-500 rounded-full"></span>
+            <div className="mt-10 space-y-12">
+                {services.map((service) => (
+                    <div key={service.title} className="grid gap-10 lg:grid-cols-12 lg:items-center">
+                        <div className="space-y-6 lg:col-span-7">
+                            <div className="flex items-start gap-4 rounded-2xl bg-background/60 p-5 ring-1 ring-border/60">
+                                <div className="flex size-12 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-800 ring-1 ring-emerald-600/20">
+                                    <SiDialogflow className="text-xl" />
+                                </div>
+                                <div>
+                                    <p className="text-lg font-semibold text-foreground">
+                                        {service.title}
+                                    </p>
+                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                        {service.description}
+                                    </p>
                                 </div>
                             </div>
 
-                            {
-                                services.map((service) => (
-                                    <div
-                                        key={service.title}
-                                        className='flex items-center justify-between gap-8 w-full'>
-                                        <div className="flex flex-col gap-12">
-                                            <div className="md:flex md:items-start md:-mx-4">
-                                                <span className="inline-block p-2 text-green-500 bg-green-100 rounded-xl md:mx-4 dark:text-white dark:bg-green-500">
-                                                    <SiDialogflow />
-                                                </span>
+                            <div className="flex items-start gap-4 rounded-2xl bg-background/60 p-5 ring-1 ring-border/60">
+                                <div className="flex size-12 items-center justify-center rounded-2xl bg-lime-600/10 text-lime-800 ring-1 ring-lime-600/20">
+                                    <MdOutlineJoinFull className="text-xl" />
+                                </div>
+                                <div>
+                                    <p className="text-lg font-semibold text-foreground">
+                                        {service.title2}
+                                    </p>
+                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                        {service.description2}
+                                    </p>
+                                </div>
+                            </div>
 
-                                                <div className="mt-4 md:mx-4 md:mt-0">
-                                                    <h1 className="text-xl font-semibold text-gray-700 capitalize dark:text-white">{service.title}</h1>
+                            <div className="flex items-start gap-4 rounded-2xl bg-background/60 p-5 ring-1 ring-border/60">
+                                <div className="flex size-12 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-800 ring-1 ring-emerald-600/20">
+                                    <HiSpeakerphone className="text-xl" />
+                                </div>
+                                <div>
+                                    <p className="text-lg font-semibold text-foreground">
+                                        {service.title3}
+                                    </p>
+                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                        {service.description3}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                                                    <p className="mt-3 text-gray-500 dark:text-gray-300">
-                                                        {service.description}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="md:flex md:items-start md:-mx-4">
-                                                <span className="inline-block p-2 text-green-500 bg-green-100 rounded-xl md:mx-4 dark:text-white dark:bg-green-500">
-                                                    <MdOutlineJoinFull />
-                                                </span>
-
-                                                <div className="mt-4 md:mx-4 md:mt-0">
-                                                    <h1 className="text-xl font-semibold text-gray-700 capitalize dark:text-white">{service.title2}</h1>
-
-                                                    <p className="mt-3 text-gray-500 dark:text-gray-300">
-                                                        {service.description2}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div className="md:flex md:items-start md:-mx-4">
-                                                <span className="inline-block p-2 text-green-500 bg-green-100 rounded-xl md:mx-4 dark:text-white dark:bg-green-500">
-                                                    <HiSpeakerphone />
-                                                </span>
-                                                <div className="mt-4 md:mx-4 md:mt-0">
-                                                    <h1 className="text-xl font-semibold text-gray-700 capitalize dark:text-white">{service.title3}</h1>
-
-                                                    <p className="mt-3 text-gray-500 dark:text-gray-300">
-                                                        {service.description3}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="">
-                                            <Image
-                                                width={200}
-                                                height={200}
-                                                className="w-[26rem] h-[26rem] object-contain xl:w-[30rem] xl:h-[30rem] rounded-full"
-                                                src={service.image} alt="" />
-                                        </div>
-                                    </div>
-                                ))
-                            }
+                        <div className="lg:col-span-5">
+                            <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-3xl bg-background/60 ring-1 ring-border/60">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/10 via-transparent to-lime-900/10" />
+                                <Image
+                                    src={service.image}
+                                    alt={service.title || "Service image"}
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 40vw"
+                                    className="object-contain p-6"
+                                />
+                            </div>
                         </div>
                     </div>
-
-                    <hr className="my-12 border-gray-200 dark:border-gray-700" />
-                    {/* 
-                    <div className="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-                        <div className="flex items-center justify-center col-span-1 md:col-span-2 lg:col-span-1">
-                            0
-                        </div>
-
-                        <div className="flex items-center justify-center col-span-1 md:col-span-2 lg:col-span-1">
-                            1
-                        </div>
-
-                        <div className="flex items-center justify-center col-span-1 md:col-span-2 lg:col-span-1">
-                            2
-                        </div>
-
-                        <div className="flex items-center justify-center col-span-1 md:col-span-3 lg:col-span-1">
-                            3
-                        </div>
-
-                        <div className="flex items-center justify-center col-span-2 md:col-span-3 lg:col-span-1">
-                            4
-                        </div>
-                    </div> */}
-                </div>
-            </section>
-        </div>
+                ))}
+            </div>
+        </section>
     )
 }
 

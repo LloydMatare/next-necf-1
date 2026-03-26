@@ -19,25 +19,3 @@ export async function GET() {
     const presentation = await Presentation.find()
     return NextResponse.json({ presentation })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const presentation = await Presentation.findByIdAndDelete(params.id)
-
-        if (!presentation) {
-            return NextResponse.json(
-                {
-                    message: "presentation not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(presentation)
-
-    } catch (error) {
-        return NextResponse.json({ message: "presentation error" }, { status: 400 })
-    }
-}

@@ -1,13 +1,12 @@
 'use client'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import TopSection from './topsection'
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
 
 function ImageSlider({ slides }: { slides: { image: string, title: string, description: string }[] }) {
     console.log("Image data :", { slides });
@@ -31,39 +30,60 @@ function ImageSlider({ slides }: { slides: { image: string, title: string, descr
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             autoplay={{ delay: 5000 }}
+            pagination={{ clickable: true }}
+            navigation
         >
             {
                 slides?.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <div className="relative w-full h-screen">
-                            {/* Image Background */}
-                            <div
-                                style={{ backgroundImage: `url(${slide.image})` }}
-                                className="bg-scroll bg-cover bg-center bg-no-repeat w-full h-full object-cover"
-                            >
-                                {/* Overlay with Unique Content */}
-                                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                                    {/* Title positioned at the middle far right */}
-                                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white p-6 text-right cursor-pointer"
-                                        onClick={() =>
-                                            navigateToNews({
-                                                image: slide.image,
-                                                title: slide.title,
-                                                description: slide.description,
-                                                // content: slide.content, // Ensure this field is included
-                                                // author: slide.author,   // Ensure this field is included
-                                                // date: slide.date,       // Ensure this field is included
-                                            })
-                                        }
-                                    >
-                                        <h2 className="text-3xl font-bold">{slide.title}</h2>
-                                        <p className="mt-2 text-lg">{slide.description}</p>
-                                    </div>
+                        <button
+                          type="button"
+                          className="relative block w-full text-left"
+                          aria-label={slide?.title ? `Open news: ${slide.title}` : "Open news"}
+                          onClick={() =>
+                            navigateToNews({
+                              image: slide.image,
+                              title: slide.title,
+                              description: slide.description,
+                            })
+                          }
+                        >
+                          <div className="relative min-h-[72vh] w-full bg-black md:min-h-[80vh]">
+                            {slide?.image ? (
+                              <Image
+                                src={slide.image}
+                                alt={slide?.title || "Featured"}
+                                fill
+                                priority={index === 0}
+                                sizes="100vw"
+                                className="object-cover"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-emerald-900 to-lime-900" />
+                            )}
+
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10" />
+                            <div className="absolute inset-0">
+                              <div className="flex h-full w-full items-end px-4 pb-12 md:px-8 md:pb-16 lg:px-12">
+                                <div className="max-w-2xl text-white">
+                                  <p className="text-xs font-semibold tracking-widest text-white/80">
+                                    FEATURED
+                                  </p>
+                                  <h2 className="mt-2 text-balance font-[var(--font-display)] text-4xl leading-[1.05] md:text-6xl">
+                                    {slide.title}
+                                  </h2>
+                                  <p className="mt-4 text-sm leading-relaxed text-white/85 md:text-base">
+                                    {slide.description}
+                                  </p>
+                                  <p className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white/90">
+                                    Read more
+                                    <span className="inline-block h-px w-10 bg-white/40" />
+                                  </p>
                                 </div>
+                              </div>
                             </div>
-                        </div>
-                        {/* Optional: TopSection can be placed here */}
-                        <TopSection />
+                          </div>
+                        </button>
                     </SwiperSlide>
                 ))
             }

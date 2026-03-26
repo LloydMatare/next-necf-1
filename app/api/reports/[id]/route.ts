@@ -1,12 +1,15 @@
-import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import Report from "@/models/(downloads)/report";
 
-//@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const report = await db.report.findUnique({
-            where: { id },
-        });
+        await connectToDB();
+        const { id } = await params;
+        const report = await Report.findById(id).lean();
         if (!report) {
             return NextResponse.json(
                 {
@@ -32,16 +35,17 @@ export async function GET(request, { params: { id } }) {
 }
 
 
-//@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        await connectToDB();
+        const { id } = await params;
+        const { title, document, date } = await request.json()
+        const data = { title, document, date }
 
-        const updatedreport = await db.report.update({
-            where: { id },
-            data
-        });
+        const updatedreport = await Report.findByIdAndUpdate(id, data, { new: true }).lean();
         if (!updatedreport) {
             return NextResponse.json(
                 {
@@ -66,13 +70,14 @@ export async function PATCH(request, { params: { id } }) {
     }
 }
 
-//@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
     try {
-
-        await db.report.delete({
-            where: { id }
-        })
+        await connectToDB();
+        const { id } = await params;
+        await Report.findByIdAndDelete(id);
         return NextResponse.json({
             message: "report deleted successfully"
         })
@@ -85,4 +90,3 @@ export async function DELETE(request: Request, { params: { id } }) {
         })
     }
 }
-

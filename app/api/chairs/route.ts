@@ -18,25 +18,3 @@ export async function GET() {
     const chair = await Chair.find()
     return NextResponse.json({ chair })
 }
-
-//@ts-ignore
-export async function DELETE(request, { params }) {
-    await connectToDB()
-    try {
-        const chair = await Chair.findByIdAndDelete(params.id)
-
-        if (!chair) {
-            return NextResponse.json(
-                {
-                    message: "chair not found"
-                },
-                { status: 400 }
-            )
-        }
-
-        return NextResponse.json(chair)
-
-    } catch (error) {
-        return NextResponse.json({ message: "chair error" }, { status: 400 })
-    }
-}
