@@ -1,11 +1,9 @@
-// app/(dashboard)/dashboard/_components/Header.tsx
+"use client";
 
-"use client"; // Ensure this component is client-side
-
+import React, { useState, useRef, useEffect } from "react";
+import { signOut, useSession } from "next-auth/react";
+import { Bell, LogOut, Search, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
-import { IoMdNotifications, IoMdMail } from "react-icons/io";
-import { FiUser } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,125 +12,120 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { signOut, useSession } from "next-auth/react"; // Import useSession hook
 
-const Header = () => {
-  const { data: session } = useSession(); // Retrieve the session data
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog open state
+function getInitials(name?: string | null) {
+  if (!name) return "??";
+  return name
+    .split(" ")
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-  const getInitials = (name: string | undefined): string => {
-    if (name) {
-      const nameParts = name.split(" ");
-      return nameParts
-        .map((part) => part[0])
-        .join("")
-        .toUpperCase();
+export default function Header() {
+  const { data: session } = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
     }
-    return "N/A"; // Default initials if name is not available
-  };
-
-  console.log("Session data:", session);
-
-  const handleLogout = () => {
-    console.log("User logged out!");
-    signOut({ callbackUrl: "/login" });
-  };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   return (
-    <header className="antialiased">
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-        <div className="flex flex-wrap justify-between items-center">
-          {/* Left side (Search input) */}
-          <div className="flex justify-start items-center">
-            <form action="#" method="GET" className="hidden lg:block lg:pl-2">
-              <label className="sr-only">Search</label>
-              <Input placeholder="Search..." />
-            </form>
-          </div>
+    <div className="flex w-full items-center justify-between gap-4 px-4 md:px-6 lg:px-8">
+      {/* Search */}
+      <div className="relative hidden w-full max-w-sm lg:block">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="Search pages..."
+          className="h-9 rounded-xl border-border/60 bg-muted/60 pl-9 text-sm"
+        />
+      </div>
 
-          {/* Right side (Icons and Avatar with dropdown) */}
-          <div className="flex items-center space-x-4">
-            {/* Notification Icon */}
-            <button>
-              <IoMdNotifications
-                className="text-gray-700 dark:text-gray-300"
-                size={24}
-              />
-            </button>
+      {/* Right actions */}
+      <div className="ml-auto flex items-center gap-2">
+        <button
+          type="button"
+          className="inline-flex size-9 items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted hover:text-foreground"
+          aria-label="Notifications"
+        >
+          <Bell className="h-[18px] w-[18px]" />
+        </button>
 
-            {/* Message Icon */}
-            <button>
-              <IoMdMail
-                className="text-gray-700 dark:text-gray-300"
-                size={24}
-              />
-            </button>
+        {/* Avatar / dropdown */}
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="inline-flex size-9 items-center justify-center rounded-xl bg-emerald-700 text-xs font-semibold text-white transition hover:bg-emerald-600"
+          >
+            {getInitials(session?.user?.name)}
+          </button>
 
-            {/* Avatar and Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center space-x-2 bg-gray-200 rounded-full p-2"
-              >
-                <span className="font-bold text-gray-700">
-                  {
-                    //@ts-ignore
-                    session?.user?.name ? getInitials(session.user.name) : "??"
-                  }
-                </span>
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-600">
-                  <div className="p-2">
-                    <button className="block w-full text-left text-gray-700 dark:text-gray-300 p-2">
-                      Profile Settings
-                    </button>
-                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                      <DialogTrigger asChild>
-                        <button
-                          onClick={() => setIsDialogOpen(true)} // Trigger open dialog
-                          className="block w-full text-left text-red-600 dark:text-red-400 p-2"
-                        >
-                          Logout
-                        </button>
-                      </DialogTrigger>
-
-                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                          <DialogTitle>Confirm Logout</DialogTitle>
-                          <DialogDescription>
-                            Are you sure you want to log out?
-                          </DialogDescription>
-                        </DialogHeader>
-                        <DialogFooter>
-                          <Button
-                            onClick={() => setIsDialogOpen(false)} // Close dialog
-                            className="bg-gray-500 text-white px-4 py-2 rounded-md"
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            onClick={handleLogout} // Logout action
-                            className="bg-red-600 text-white px-4 py-2 rounded-md"
-                          >
-                            Logout
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </div>
-              )}
+          {menuOpen && (
+            <div className="absolute right-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-2xl border border-border/60 bg-background shadow-lg ring-1 ring-black/5">
+              <div className="border-b border-border/60 px-4 py-3">
+                <p className="text-sm font-medium text-foreground">
+                  {session?.user?.name ?? "Admin"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {session?.user?.role ?? "admin"}
+                </p>
+              </div>
+              <div className="p-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setLogoutOpen(true);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-600 transition hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
-      </nav>
-    </header>
-  );
-};
+      </div>
 
-export default Header;
+      {/* Logout confirm dialog */}
+      <Dialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Sign out</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to sign out of the admin console?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:justify-end">
+            <Button
+              variant="outline"
+              className="rounded-xl"
+              onClick={() => setLogoutOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="rounded-xl bg-red-600 text-white hover:bg-red-500"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              Sign out
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

@@ -1,6 +1,5 @@
-// import ImageUpload from "@/components/ImageUpload"
-import { DatePicker } from "@/components/dateTimePicker";
-import { Button } from "@/components/ui/button";
+// _components/HomeTabs.tsx
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -9,11 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import Upload from "@/components/upload";
 import EventCard from "./EventCard";
 import HeroList from "./HeroList";
 import CreateButton from "@/components/createButton";
@@ -23,10 +18,12 @@ import MilestoneList from "./MilestoneList";
 import TestimonialList from "./TestimonialList ";
 import SponsorList from "./SponsorList";
 
+// NO 'use client' directive here - this is a Server Component
+
 export function HomeTabs() {
   return (
-    <Tabs defaultValue="account" className="w-full">
-      <TabsList className="flex items-center justify-center mb-8 bg-green-600 text-white">
+    <Tabs defaultValue="hero" className="w-full">
+      <TabsList className="flex items-center justify-center mb-8 bg-emerald-600 text-white">
         <TabsTrigger value="hero">Hero</TabsTrigger>
         <TabsTrigger value="main">Main</TabsTrigger>
         <TabsTrigger value="services">Services</TabsTrigger>
@@ -54,7 +51,6 @@ export function HomeTabs() {
             <CardDescription></CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {/* <CreateButton link='home/main' /> */}
             <MainList />
           </CardContent>
         </Card>
@@ -66,7 +62,6 @@ export function HomeTabs() {
             <CardDescription></CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {/* <CreateButton link='home/service' /> */}
             <ServiceList />
           </CardContent>
         </Card>

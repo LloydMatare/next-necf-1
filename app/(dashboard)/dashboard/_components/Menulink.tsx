@@ -3,16 +3,24 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-
 function MenuLink({ data }: any) {
+  const pathName = usePathname()
+  const isActive = pathName === data.path || pathName.startsWith(data.path + '/')
 
-    const pathName = usePathname()
-    return (
-        <Link href={data.path} className={`flex gap-2 items-center ${pathName === data.path && 'bg-green-600 text-white'}  p-2 mb-2 w-full md:w-[180px] rounded `}>
-            {data.icon}
-            {data.title}
-        </Link>
-    )
+  return (
+    <Link
+      href={data.path}
+      className={[
+        'flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition',
+        isActive
+          ? 'bg-white/15 font-medium text-white'
+          : 'text-white/70 hover:bg-white/10 hover:text-white',
+      ].join(' ')}
+    >
+      <span className="text-base opacity-80">{data.icon}</span>
+      {data.title}
+    </Link>
+  )
 }
 
 export default MenuLink

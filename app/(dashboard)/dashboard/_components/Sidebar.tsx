@@ -2,136 +2,84 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {
-  MdDashboard,
-  MdWork,
-  MdAnalytics,
-  MdPeople,
-  MdOutlineSettings,
-  MdHelpCenter,
-  MdLogout,
   MdHome,
   MdInfoOutline,
-  MdOutlineMic,
   MdOutlineContactPage,
   MdEventNote,
 } from "react-icons/md";
 import { BsPersonFillAdd } from "react-icons/bs";
-import { IoCloudDownload } from "react-icons/io5";
-import { IoFootsteps } from "react-icons/io5";
+import { IoCloudDownload, IoFootsteps } from "react-icons/io5";
 import { FaUsers } from "react-icons/fa";
 import MenuLink from "./Menulink";
-import { Colors } from "@/constants/colors";
 
 const menuItems = [
   {
-    title: "Pages",
+    title: "Content",
     list: [
-      {
-        title: "Home",
-        path: "/dashboard/home",
-        icon: <MdHome />,
-      },
-      {
-        title: "About",
-        path: "/dashboard/about",
-        icon: <MdInfoOutline />,
-      },
-      {
-        title: "Downloads",
-        path: "/dashboard/downloads",
-        icon: <IoCloudDownload />,
-      },
-      {
-        title: "Programmes",
-        path: "/dashboard/programs",
-        icon: <MdEventNote />,
-      },
-      {
-        title: "Team",
-        path: "/dashboard/team",
-        icon: <FaUsers />,
-      },
-      {
-        title: "Contact",
-        path: "/dashboard/contact",
-        icon: <MdOutlineContactPage />,
-      },
-      {
-        title: "Delegates",
-        path: "/dashboard/delegates",
-        icon: <FaUsers />,
-      },
-      {
-        title: "Vacancies",
-        path: "/dashboard/vacancy",
-        icon: <BsPersonFillAdd />,
-      },
-      {
-        title: "Footer",
-        path: "/dashboard/footer",
-        icon: <IoFootsteps />,
-      },
+      { title: "Home", path: "/dashboard/home", icon: <MdHome /> },
+      { title: "About", path: "/dashboard/about", icon: <MdInfoOutline /> },
+      { title: "Downloads", path: "/dashboard/downloads", icon: <IoCloudDownload /> },
+      { title: "Programmes", path: "/dashboard/programs", icon: <MdEventNote /> },
+      { title: "Team", path: "/dashboard/team", icon: <FaUsers /> },
+      { title: "Contact", path: "/dashboard/contact", icon: <MdOutlineContactPage /> },
     ],
   },
-  // {
-  //     title: "Analytics",
-  //     list: [
-  //         {
-  //             title: "Revenue",
-  //             path: "/dashboard/revenue",
-  //             icon: <MdWork />,
-  //         },
-  //         {
-  //             title: "Reports",
-  //             path: "/dashboard/reports",
-  //             icon: <MdAnalytics />,
-  //         },
-  //         {
-  //             title: "Teams",
-  //             path: "/dashboard/teams",
-  //             icon: <MdPeople />,
-  //         },
-  //     ],
-  // },
-  // {
-  //     title: "User",
-  //     list: [
-  //         {
-  //             title: "Settings",
-  //             path: "/dashboard/settings",
-  //             icon: <MdOutlineSettings />,
-  //         },
-  //         {
-  //             title: "Help",
-  //             path: "/dashboard/help",
-  //             icon: <MdHelpCenter />,
-  //         },
-  //     ],
-  // },
+  {
+    title: "Management",
+    list: [
+      { title: "Delegates", path: "/dashboard/delegates", icon: <FaUsers /> },
+      { title: "Vacancies", path: "/dashboard/vacancy", icon: <BsPersonFillAdd /> },
+      { title: "Footer", path: "/dashboard/footer", icon: <IoFootsteps /> },
+    ],
+  },
 ];
 
 function Sidebar() {
   return (
-    <div className="h-full w-full border-r sticky top-28">
-      <div className="p-4 flex items-center justify-center">
-        <Image src={"/logon.png"} alt="logo" width={100} height={100} />
+    <div className="sticky top-0 flex h-dvh flex-col bg-emerald-950 text-white">
+      {/* Logo */}
+      <div className="flex items-center gap-3 border-b border-white/10 px-5 py-5">
+        <Image
+          src="/logon.png"
+          alt="NECF"
+          width={40}
+          height={40}
+          className="h-10 w-10 rounded-xl bg-white/90 object-contain p-1"
+        />
+        <div className="leading-tight">
+          <p className="text-sm font-semibold tracking-wide">NECF</p>
+          <p className="text-[11px] text-white/60">Admin Console</p>
+        </div>
       </div>
-      {menuItems.map((cat) => (
-        <ul
-          key={cat.title}
-          className="flex items-center  px-4 pt-2 text-green-950 w-full"
-        >
-          <li className="font-bold text-lg">
-            {cat.title}
-            <span className="font-normal text-sm w-full">
-              {cat.list.map((item) => (
-                <MenuLink data={item} key={item.title} />
+
+      {/* Navigation */}
+      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+        {menuItems.map((section) => (
+          <div key={section.title}>
+            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-widest text-white/50">
+              {section.title}
+            </p>
+            <ul className="space-y-0.5">
+              {section.list.map((item) => (
+                <li key={item.title}>
+                  <MenuLink data={item} />
+                </li>
               ))}
-            </span>
-          </li>
-          {/* <Link href={'/dashboard/home'}>{item.title}</Link> */}
-        </ul>
-      ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+
+      {/* Footer */}
+      <div className="border-t border-white/10 px-5 py-4">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-xs text-white/60 transition hover:text-white"
+        >
+          <span className="inline-block size-1.5 rounded-full bg-emerald-400" />
+          View live site
+        </Link>
+      </div>
     </div>
   );
 }
