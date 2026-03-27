@@ -56,7 +56,7 @@ function ImageSlider({ slides }: { slides: { image: string, title: string, descr
                                 fill
                                 priority={index === 0}
                                 sizes="100vw"
-                                className="object-cover"
+                                className="object-cover object-top"
                               />
                             ) : (
                               <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-emerald-900 to-lime-900" />

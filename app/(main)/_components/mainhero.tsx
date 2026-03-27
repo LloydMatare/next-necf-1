@@ -45,7 +45,7 @@ async function MainHero() {
 
 
   return (
-    <div className="relative -mt-16">
+    <div className="relative">
 
       {/* {
         heros.map((hero: any) => (

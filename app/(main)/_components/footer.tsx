@@ -17,7 +17,7 @@ function Footer() {
                 width={120}
                 height={120}
                 alt="NECF"
-                className="h-16 w-16 rounded-2xl object-contain ring-1 ring-white/10"
+                className="h-16 w-16 rounded-2xl bg-white/90 object-contain p-1 ring-1 ring-white/20"
               />
               <div>
                 <p className="text-xs font-semibold tracking-widest text-white/70">
@@ -146,7 +146,7 @@ function Footer() {
             </div>
             <div className="pt-2">
               <Link href={"https://www.herald.co.zw/"} target="_blank">
-                <div className="inline-flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 hover:bg-white/10">
+                <div className="inline-flex items-center gap-3 rounded-2xl bg-white/90 p-3 ring-1 ring-white/20 hover:bg-white">
                   <Image
                     src={"/logo.webp"}
                     alt="The Herald"
@@ -154,7 +154,7 @@ function Footer() {
                     height={40}
                     className="h-8 w-auto object-contain"
                   />
-                  <span className="text-xs text-white/70">Media partner</span>
+                  <span className="text-xs text-foreground/70">Media partner</span>
                 </div>
               </Link>
             </div>
