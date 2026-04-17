@@ -3,8 +3,7 @@ import React from 'react'
 import ChairForm from '../../../_components/ChairForm'
 import getChair from '@/lib/team/getChair'
 
-//@ts-ignore
-async function ChairEditPage({ params }) {
+async function ChairEditPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const chair = await getChair(id)
 

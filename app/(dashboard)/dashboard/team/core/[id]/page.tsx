@@ -5,8 +5,7 @@ import EditCore from '../../_components/EditCore';
 import getCore from '@/lib/team/getCore';
 
 
-//@ts-ignore
-async function TeamCore({ params }) {
+async function TeamCore({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const team = await getCore(id)
     console.log(team);

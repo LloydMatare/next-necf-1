@@ -3,8 +3,7 @@ import BackButton from '@/components/backButton'
 import EditSection from '../../_components/EditSection'
 import getSection from '@/lib/(about)/aboutSection/getSection'
 
-//@ts-ignore
-async function ProgramEdit({ params }) {
+async function ProgramEdit({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const program = await getSection(id)
     return (

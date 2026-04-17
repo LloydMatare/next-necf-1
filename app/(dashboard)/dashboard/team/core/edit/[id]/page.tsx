@@ -3,8 +3,7 @@ import getCore from '@/lib/team/getCore'
 import React from 'react'
 import CoreForm from '../../../_components/CoreForm'
 
-//@ts-ignore
-async function CoreEditPage({ params }) {
+async function CoreEditPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const core = await getCore(id)
     return (

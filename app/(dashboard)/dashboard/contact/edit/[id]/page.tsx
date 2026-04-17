@@ -2,8 +2,7 @@ import React from 'react'
 
 import getContact from '@/lib/getContact'
 import EditForm from '../../_components/EditForm'
-//@ts-ignore
-async function EditContact({ params }) {
+async function EditContact({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const contact = await getContact()
     return (

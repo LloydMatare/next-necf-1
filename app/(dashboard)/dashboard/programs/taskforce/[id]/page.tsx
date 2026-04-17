@@ -3,8 +3,7 @@ import BackButton from '@/components/backButton'
 import getTaskForce from '@/lib/download/getTaskforce'
 import EditTaskForce from '../../_components/EditTaskForce'
 
-//@ts-ignore
-async function ProgramEdit({ params }) {
+async function ProgramEdit({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const program = await getTaskForce(id)
     return (

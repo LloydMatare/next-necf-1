@@ -4,8 +4,7 @@ import EditChair from '../../_components/EditChair';
 import getChair from '@/lib/team/getChair';
 
 
-//@ts-ignore
-async function ChairEdit({ params }) {
+async function ChairEdit({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const team = await getChair(id)
     console.log(team);

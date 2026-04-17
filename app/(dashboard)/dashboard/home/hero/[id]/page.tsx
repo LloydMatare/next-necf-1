@@ -3,7 +3,7 @@ import EditHero from '../../_components/EditHero'
 import BackButton from '@/components/backButton'
 import getHero from '@/lib/(home)/hero/getHero'
 
-async function ProgramEdit({ params }) {
+async function ProgramEdit({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const hero = await getHero(id)
     return (
