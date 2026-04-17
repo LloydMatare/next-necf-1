@@ -23,38 +23,44 @@ import CreateButton from "@/components/createButton"
 
 export function DownloadTab() {
     return (
-        <Tabs defaultValue="account" className="w-full">
-            <TabsList className="flex gap-2 bg-green-600 text-white">
-                <TabsTrigger value="download">Downloads</TabsTrigger>
-                <TabsTrigger value="report">Reports</TabsTrigger>
-            </TabsList>
-            <TabsContent value="download">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Downloads</CardTitle>
-                        <CardDescription>
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="">
-                            <CreateButton link='downloads' />
-                        </div>
-                        <DownloadList />
-                    </CardContent>
-                </Card>
-            </TabsContent>
-            <TabsContent value="report">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Reports</CardTitle>
-                        <CardDescription>
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <ReportTab />
-                    </CardContent>
-                </Card>
-            </TabsContent>
-        </Tabs>
+        <div className="flex h-full">
+            <Tabs defaultValue="download" orientation="vertical" className="flex w-full">
+                <div className="w-64 border-r border-gray-200 pr-4">
+                    <TabsList className="flex flex-col h-auto bg-green-600 text-white w-full p-1">
+                        <TabsTrigger value="download" className="w-full justify-start">Downloads</TabsTrigger>
+                        <TabsTrigger value="report" className="w-full justify-start">Reports</TabsTrigger>
+                    </TabsList>
+                </div>
+                <div className="flex-1 pl-6">
+                    <TabsContent value="download" className="mt-0">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Downloads</CardTitle>
+                                <CardDescription>
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                <div className="">
+                                    <CreateButton link='downloads' />
+                                </div>
+                                <DownloadList />
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                    <TabsContent value="report" className="mt-0">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Reports</CardTitle>
+                                <CardDescription>
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                <ReportTab />
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </div>
+            </Tabs>
+        </div>
     )
 }

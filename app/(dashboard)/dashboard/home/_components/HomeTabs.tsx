@@ -22,100 +22,106 @@ import SponsorList from "./SponsorList";
 
 export function HomeTabs() {
   return (
-    <Tabs defaultValue="hero" className="w-full">
-      <TabsList className="flex items-center justify-center mb-8 bg-emerald-600 text-white">
-        <TabsTrigger value="hero">Hero</TabsTrigger>
-        <TabsTrigger value="main">Main</TabsTrigger>
-        <TabsTrigger value="services">Services</TabsTrigger>
-        <TabsTrigger value="events">Events</TabsTrigger>
-        <TabsTrigger value="sponsors">Sponsors</TabsTrigger>
-        <TabsTrigger value="milestone">Milestone</TabsTrigger>
-        <TabsTrigger value="testimonial">Testimonial</TabsTrigger>
-      </TabsList>
-      <TabsContent value="hero">
-        <Card>
-          <CardHeader>
-            <CardTitle>Hero Section</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <CreateButton link="home/hero" />
-            <HeroList />
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="main">
-        <Card>
-          <CardHeader>
-            <CardTitle>Main</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <MainList />
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="services">
-        <Card>
-          <CardHeader>
-            <CardTitle>Service</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <ServiceList />
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="events">
-        <Card>
-          <CardHeader>
-            <CardTitle>Events</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <CreateButton link="home/event" />
-            <EventCard />
-          </CardContent>
-          <CardFooter></CardFooter>
-        </Card>
-      </TabsContent>
-      <TabsContent value="milestone">
-        <Card>
-          <CardHeader>
-            <CardTitle>Milestone</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <MilestoneList />
-          </CardContent>
-          <CardFooter></CardFooter>
-        </Card>
-      </TabsContent>
-      <TabsContent value="sponsors">
-        <Card>
-          <CardHeader>
-            <CardTitle>Sponsors</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <SponsorList />
-          </CardContent>
-          <CardFooter></CardFooter>
-        </Card>
-      </TabsContent>
-      <TabsContent value="testimonial">
-        <Card>
-          <CardHeader>
-            <CardTitle>Testimonial</CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <CreateButton link="home/testimonials" />
-            <TestimonialList />
-          </CardContent>
-          <CardFooter></CardFooter>
-        </Card>
-      </TabsContent>
-    </Tabs>
+    <div className="flex h-full">
+      <Tabs defaultValue="hero" orientation="vertical" className="flex w-full">
+        <div className="w-64 border-r border-gray-200 pr-4">
+          <TabsList className="flex flex-col h-auto bg-emerald-600 text-white w-full p-1">
+            <TabsTrigger value="hero" className="w-full justify-start">Hero</TabsTrigger>
+            <TabsTrigger value="main" className="w-full justify-start">Main</TabsTrigger>
+            <TabsTrigger value="services" className="w-full justify-start">Services</TabsTrigger>
+            <TabsTrigger value="events" className="w-full justify-start">Events</TabsTrigger>
+            <TabsTrigger value="sponsors" className="w-full justify-start">Sponsors</TabsTrigger>
+            <TabsTrigger value="milestone" className="w-full justify-start">Milestone</TabsTrigger>
+            <TabsTrigger value="testimonial" className="w-full justify-start">Testimonial</TabsTrigger>
+          </TabsList>
+        </div>
+        <div className="flex-1 pl-6">
+          <TabsContent value="hero" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Hero Section</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CreateButton link="home/hero" />
+                <HeroList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="main" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Main</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <MainList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="services" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Service</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <ServiceList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="events" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Events</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CreateButton link="home/event" />
+                <EventCard />
+              </CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="milestone" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Milestone</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <MilestoneList />
+              </CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="sponsors" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Sponsors</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <SponsorList />
+              </CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="testimonial" className="mt-0">
+            <Card>
+              <CardHeader>
+                <CardTitle>Testimonial</CardTitle>
+                <CardDescription></CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CreateButton link="home/testimonials" />
+                <TestimonialList />
+              </CardContent>
+              <CardFooter></CardFooter>
+            </Card>
+          </TabsContent>
+        </div>
+      </Tabs>
+    </div>
   );
 }
