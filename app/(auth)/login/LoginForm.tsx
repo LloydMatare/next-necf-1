@@ -44,7 +44,7 @@ export default function LoginForm() {
     })
 
     if (res?.error) {
-      setFormError("Invalid username or password.")
+      setFormError("Invalid username or password")
       return
     }
 
