@@ -24,7 +24,7 @@ function About() {
             About Page
           </h1>
           <p className="text-slate-600/80 mt-2 max-w-2xl">
-            Manage your company story, team members, mission, and all about page content from one place
+            Manage  your company story, team members, mission, and all about page content from one place
           </p>
         </div>
 
