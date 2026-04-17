@@ -4,7 +4,8 @@ import EditSection from '../../_components/EditSection'
 import getSection from '@/lib/(about)/aboutSection/getSection'
 
 //@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }) {
+    const { id } = await params
     const program = await getSection(id)
     return (
         <div className='p-4'>

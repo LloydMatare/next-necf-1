@@ -4,7 +4,8 @@ import getTaskForce from '@/lib/download/getTaskforce'
 import EditTaskForce from '../../_components/EditTaskForce'
 
 //@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }) {
+    const { id } = await params
     const program = await getTaskForce(id)
     return (
         <div className='p-4'>

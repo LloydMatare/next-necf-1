@@ -4,7 +4,8 @@ import EditTop from '../../_components/EditTop'
 import getTop from '@/lib/(about)/aboutTop/getTop'
 
 //@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }) {
+    const { id } = await params
     const program = await getTop(id)
     return (
         <div className='p-4'>

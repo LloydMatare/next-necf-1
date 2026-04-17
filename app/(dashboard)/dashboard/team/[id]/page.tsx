@@ -5,7 +5,8 @@ import EditForm from '../_components/EditTeam'
 
 
 //@ts-ignore
-async function TeamEdit({ params: { id } }) {
+async function TeamEdit({ params }) {
+    const { id } = await params
     const team = await getTeam(id)
     console.log(team);
 

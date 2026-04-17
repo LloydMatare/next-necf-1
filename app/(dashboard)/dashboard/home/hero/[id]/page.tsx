@@ -3,8 +3,8 @@ import EditHero from '../../_components/EditHero'
 import BackButton from '@/components/backButton'
 import getHero from '@/lib/(home)/hero/getHero'
 
-//@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }) {
+    const { id } = await params
     const hero = await getHero(id)
     return (
         <div className='p-4'>
