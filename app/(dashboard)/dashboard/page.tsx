@@ -82,7 +82,7 @@ export default function Dashboard() {
           Quick links
         </p>
         <h2 className="mt-1 text-lg font-semibold text-foreground">
-          Jump to a section
+          Jump to a section.
         </h2>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
