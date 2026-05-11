@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About Content Management.',
-  description: 'Manage about page sections, team members, company history, and more',
+  description: '.',
 };
 
 function About() {
