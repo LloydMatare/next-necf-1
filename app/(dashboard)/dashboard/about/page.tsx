@@ -4,7 +4,7 @@ import  {AboutTab}  from './_components/aboutTabs';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Content Management',
+  title: 'About Content Management.',
   description: '.',
 };
 
