@@ -12,7 +12,7 @@ async function TeamForm() {
   const sections = [
     { title: "NECF National Co-Chairpersons", members: chairs },
     { title: "NECF Steering Committee Co-Chairpersons", members: cores },
-    { title: "NECF Secretariat", members: teams },
+    { title: "NECF Secretariat.", members: teams },
   ];
 
   function pickMembers<T>(arr: T[], indices: number[]) {
