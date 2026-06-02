@@ -8,7 +8,7 @@ import { Eye, Edit, Calendar, Clock } from 'lucide-react'
 
 export async function loadHero() {
     await connectToDB()
-    const heros = await Hero.find().sort({ createdAt: -1 })
+    const heros = await Hero.find().sort({ createdAt: -1 }).limit(50)
     return heros
 }
 

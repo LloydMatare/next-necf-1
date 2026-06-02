@@ -8,7 +8,7 @@ import DownloadCard from './downloadCard'
 
 export async function loadDownload() {
     await connectToDB()
-    const research = await Research.find()
+    const research = await Research.find().limit(50)
     return research
 }
 

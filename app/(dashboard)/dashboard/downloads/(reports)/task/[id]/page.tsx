@@ -4,8 +4,8 @@ import EditTaskForce from '../../../_components/editTaskForce'
 import getTask from '@/lib/download/getTask'
 
 
-//@ts-ignore
-async function DownloadEdit({ params: { id } }) {
+async function DownloadEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const download = await getTask(id)
     return (
         <div className='p-4'>

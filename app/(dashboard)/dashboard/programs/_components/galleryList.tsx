@@ -7,7 +7,7 @@ import Gallery from '@/models/(programs)/gallery'
 
 export async function loadAbout() {
     await connectToDB()
-    const abouts = await Gallery.find()
+    const abouts = await Gallery.find().limit(50)
     return abouts
 }
 

@@ -4,8 +4,8 @@ import getResearch from '@/lib/download/getResearch'
 import EditResearch from '../../../_components/editResearch'
 
 
-//@ts-ignore
-async function DownloadEdit({ params: { id } }) {
+async function DownloadEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const download = await getResearch(id)
     return (
         <div className='p-4'>

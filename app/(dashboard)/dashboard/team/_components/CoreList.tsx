@@ -5,7 +5,7 @@ import Core from '@/models/cores'
 
 export async function loadCores() {
     await connectToDB()
-    const core = await Core.find()
+    const core = await Core.find().limit(50)
     return core
 }
 

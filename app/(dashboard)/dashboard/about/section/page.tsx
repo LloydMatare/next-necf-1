@@ -6,8 +6,8 @@ import getSecond from '@/lib/(about)/aboutSecond/getSecond'
 import EditSection from '../_components/EditSection'
 import getSection from '@/lib/(home)/section/getSection'
 
-//@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const program = await getSection(id)
     return (
         <div className='p-4'>

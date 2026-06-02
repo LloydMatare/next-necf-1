@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 
 export async function loadHero() {
     await connectToDB()
-    const heros = await Hero.find()
+    const heros = await Hero.find().limit(50)
     return heros
 }
 

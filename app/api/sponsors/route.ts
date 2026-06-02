@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { connectToDB } from "@/lib/connectToDB";
 import Sponsor from "@/models/sponsors";
 import { NextRequest, NextResponse } from "next/server";
+import { getPaginationParams, buildPaginatedResult } from "@/lib/pagination";
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,11 +30,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectToDB();
-    const sponsors = await Sponsor.find().sort({ tier: 1, name: 1 });
-    return NextResponse.json({ sponsors });
+    const { page, limit } = getPaginationParams(req.nextUrl.searchParams);
+    const skip = (page - 1) * limit;
+    const [sponsors, total] = await Promise.all([
+      Sponsor.find().sort({ tier: 1, name: 1 }).skip(skip).limit(limit),
+      Sponsor.countDocuments(),
+    ]);
+    return NextResponse.json(buildPaginatedResult(sponsors, total, { page, limit }));
   } catch (error) {
     console.error("Error fetching sponsors:", error);
     return NextResponse.json(

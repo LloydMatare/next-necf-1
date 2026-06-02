@@ -8,7 +8,7 @@ import Monthly from '@/models/(downloads)/monthly'
 
 export async function loadDownload() {
     await connectToDB()
-    const monthly = await Monthly.find()
+    const monthly = await Monthly.find().limit(50)
     return monthly
 }
 

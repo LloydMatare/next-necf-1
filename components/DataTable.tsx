@@ -32,12 +32,16 @@ import {
 } from "@/components/ui/table";
 import { TableButton } from "./TableButton";
 import EditButton from "./editButton";
+import { PaginationControls } from "./PaginationControls";
 
 export type DataTableProps<T> = {
   columns: ColumnDef<T>[];
   data: T[];
   filterPlaceholder?: string;
   filter?: string;
+  totalPages?: number;
+  page?: number;
+  onPageChange?: (page: number) => void;
 };
 
 export function DataTable<T extends { id: string }>({
@@ -46,6 +50,9 @@ export function DataTable<T extends { id: string }>({
   filterPlaceholder,
   filter,
   onDelete,
+  totalPages,
+  page,
+  onPageChange,
 }: DataTableProps<T> & { onDelete: (id: string) => void }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -61,11 +68,12 @@ export function DataTable<T extends { id: string }>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: totalPages ? undefined : getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    manualPagination: !!totalPages,
     state: {
       sorting,
       columnFilters,
@@ -162,30 +170,36 @@ export function DataTable<T extends { id: string }>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      {
+        totalPages && page && onPageChange ? (
+          <PaginationControls page={page} totalPages={totalPages} onPageChange={onPageChange} />
+        ) : (
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              {table.getFilteredSelectedRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
+            <div className="space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 }

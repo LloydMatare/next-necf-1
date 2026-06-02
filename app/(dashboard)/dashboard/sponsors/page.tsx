@@ -9,10 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { PaginationControls } from "@/components/PaginationControls";
 
 interface Sponsor {
   _id: string;
@@ -25,24 +26,28 @@ interface Sponsor {
 export default function SponsorsList() {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchSponsors();
-  }, []);
-
-  async function fetchSponsors() {
+  const fetchSponsors = useCallback(async (p: number) => {
+    setLoading(true);
     try {
-      const response = await fetch("/api/sponsors");
+      const response = await fetch(`/api/sponsors?page=${p}&limit=20`);
       const data = await response.json();
-      setSponsors(data.sponsors);
+      setSponsors(data.data);
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.error("Failed to fetch sponsors:", error);
       toast.error("Failed to load sponsors");
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    fetchSponsors(page);
+  }, [page, fetchSponsors]);
 
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this sponsor?")) return;
@@ -159,6 +164,7 @@ export default function SponsorsList() {
           </TableBody>
         </Table>
       </div>
+      <PaginationControls page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );
 }

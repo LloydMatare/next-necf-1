@@ -1,6 +1,7 @@
 import { connectToDB } from "@/lib/connectToDB";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Message from "../../../models/messages";
+import { getPaginationParams, buildPaginatedResult } from "@/lib/pagination";
 
 export async function POST(req: Request) {
   const { name, email, phone, eventTitle } = await req.json();
@@ -21,8 +22,13 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await connectToDB();
-  const messages = await Message.find();
-  return NextResponse.json({ messages });
+  const { page, limit } = getPaginationParams(req.nextUrl.searchParams);
+  const skip = (page - 1) * limit;
+  const [messages, total] = await Promise.all([
+    Message.find().skip(skip).limit(limit),
+    Message.countDocuments(),
+  ]);
+  return NextResponse.json(buildPaginatedResult(messages, total, { page, limit }));
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DataTable } from "@/components/DataTable";
 
 interface Delegate {
@@ -53,9 +53,11 @@ const columns = [
 
 const DelegatesTable: React.FC = () => {
   const [delegates, setDelegates] = useState<Delegate[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchDelegates = async () => {
-    const response = await fetch("/api/delegates");
+  const fetchDelegates = useCallback(async (p: number) => {
+    const response = await fetch(`/api/delegates?page=${p}&limit=20`);
     const data = await response.json();
     if (data.success) {
       // Add 'id' field from '_id' and adjust the company data structure if needed
@@ -65,14 +67,13 @@ const DelegatesTable: React.FC = () => {
         company: delegate.company ? { name: delegate.company.name } : null, // Make sure company name exists
       }));
       setDelegates(delegatesWithId);
+      setTotalPages(data.totalPages);
     }
-  };
-
-  useEffect(() => {
-    fetchDelegates();
   }, []);
 
-  console.log("Delegates:", delegates);
+  useEffect(() => {
+    fetchDelegates(page);
+  }, [page, fetchDelegates]);
 
   return (
     <DataTable
@@ -83,6 +84,9 @@ const DelegatesTable: React.FC = () => {
       onDelete={(id) => {
         console.log(`Delete delegate with id: ${id}`);
       }}
+      totalPages={totalPages}
+      page={page}
+      onPageChange={setPage}
     />
   );
 };

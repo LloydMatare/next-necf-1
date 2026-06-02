@@ -6,7 +6,7 @@ import React from "react";
 
 export async function loadProgram() {
   await connectToDB();
-  const program = await Program.find();
+  const program = await Program.find().limit(50);
   return program;
 }
 

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Company from "@/models/company";
 import { connectToDB } from "@/lib/connectToDB";
 import Delegate from "@/models/delegates";
+import { getPaginationParams, buildPaginatedResult } from "@/lib/pagination";
 
 export async function POST(req: Request) {
   try {
@@ -37,13 +38,18 @@ export async function POST(req: Request) {
 }
 
 // GET - Retrieve all delegates with their associated company
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectToDB();
-    const delegates = await Delegate.find().populate("company", "name");
+    const { page, limit } = getPaginationParams(req.nextUrl.searchParams);
+    const skip = (page - 1) * limit;
+    const [delegates, total] = await Promise.all([
+      Delegate.find().populate("company", "name").skip(skip).limit(limit),
+      Delegate.countDocuments(),
+    ]);
 
     return NextResponse.json(
-      { success: true, data: delegates },
+      { success: true, ...buildPaginatedResult(delegates, total, { page, limit }) },
       { status: 200 }
     );
   } catch (error) {

@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic"
 
 import { connectToDB } from "@/lib/connectToDB"
 import Vacancy from "@/models/vacancy"
+import { getPaginationParams, buildPaginatedResult } from "@/lib/pagination"
 
 import { NextRequest, NextResponse } from "next/server"
 
@@ -13,10 +14,15 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     await connectToDB()
-    const vacancy = await Vacancy.find()
-    return NextResponse.json({ vacancy })
+    const { page, limit } = getPaginationParams(req.nextUrl.searchParams);
+    const skip = (page - 1) * limit;
+    const [vacancy, total] = await Promise.all([
+      Vacancy.find().skip(skip).limit(limit),
+      Vacancy.countDocuments(),
+    ]);
+    return NextResponse.json(buildPaginatedResult(vacancy, total, { page, limit }));
 }
 
 export async function DELETE(req: NextRequest) {

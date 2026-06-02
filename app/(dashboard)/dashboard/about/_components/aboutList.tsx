@@ -8,7 +8,7 @@ import AboutSection from "@/models/(about)/aboutSection";
 
 export async function loadAbout() {
   await connectToDB();
-  const abouts = await AboutSection.find();
+  const abouts = await AboutSection.find().limit(50);
   return abouts;
 }
 

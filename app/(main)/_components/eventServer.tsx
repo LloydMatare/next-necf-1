@@ -8,7 +8,7 @@ import EventPage from "./event";
 export default async function EventPageServer() {
   // Fetch events on the server
   await connectToDB();
-  const events = await MainEvent.find().select({ title: 1, image: 1, date: 1, document: 1, link: 1 }).lean();
+  const events = await MainEvent.find().select({ title: 1, image: 1, date: 1, document: 1, link: 1 }).limit(50).lean();
 
   console.log("Main - Events : ",events);
   

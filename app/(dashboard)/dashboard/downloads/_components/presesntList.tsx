@@ -9,7 +9,7 @@ import Presentation from '@/models/(downloads)/presentation'
 
 export async function loadDownload() {
     await connectToDB()
-    const presents = await Presentation.find()
+    const presents = await Presentation.find().limit(50)
     return presents
 }
 

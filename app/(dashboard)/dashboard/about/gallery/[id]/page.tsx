@@ -3,8 +3,8 @@ import BackButton from '@/components/backButton'
 import EditGallery from '../../_components/EditGallery'
 import getGallery from '@/lib/(about)/gallery/getGallery'
 
-//@ts-ignore
-async function GalleryEdit({ params: { id } }) {
+async function GalleryEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const gallery = await getGallery(id)
     return (
         <div className='p-4'>

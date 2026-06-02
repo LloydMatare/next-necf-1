@@ -5,8 +5,8 @@ import getSection from '@/lib/(home)/section/getSection'
 import EditTestimonial from '../../_components/EditTestimonial'
 import getTestimonial from '@/lib/(home)/testimonial/getTestimonial'
 
-//@ts-ignore
-async function ProgramEdit({ params: { id } }) {
+async function ProgramEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const section = await getTestimonial(id)
     return (
         <div className='p-4'>

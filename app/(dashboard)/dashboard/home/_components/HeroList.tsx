@@ -17,7 +17,7 @@ interface Hero {
 
 export async function loadHero(): Promise<Hero[]> {
   await connectToDB();
-  const heros = await Hero.find().sort({ createdAt: -1 }).lean();
+  const heros = await Hero.find().sort({ createdAt: -1 }).limit(50).lean();
   return heros.map(hero => ({
     ...hero,
     id: hero._id.toString(),

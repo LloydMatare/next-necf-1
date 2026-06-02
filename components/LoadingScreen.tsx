@@ -17,7 +17,6 @@ export default function LoadingScreen({ label = "Loading" }: LoadingScreenProps)
             fill
             sizes="64px"
             className="object-contain"
-            priority
           />
         </div>
         <div className="flex items-center gap-3 text-sm text-muted-foreground">

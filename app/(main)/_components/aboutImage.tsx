@@ -8,7 +8,7 @@ import Service from '@/models/(home)/service';
 
 export async function loadService() {
     await connectToDB()
-    const services = await Service.find()
+    const services = await Service.find().limit(50)
     return services
 }
 

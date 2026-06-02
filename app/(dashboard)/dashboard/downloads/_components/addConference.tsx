@@ -19,39 +19,34 @@ function AddConference() {
         console.log(raw_doc);
 
 
-        const formData = new FormData()
-        formData.append('file', raw_doc)
-        formData.append('upload_preset', 'next_necf')
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', raw_doc)
 
-        try {
-            const uploadResponse = await fetch("https://api.cloudinary.com/v1_1/dxkna0tuc/auto/upload/", {
-                method: "POST",
-                body: formData
-            })
+        const uploadResponse = await fetch("/api/upload-blob", {
+            method: "POST",
+            body: uploadFormData
+        })
 
-            if (!uploadResponse.ok) {
-                throw new Error('File upload failed')
-            }
-            const imageData = await uploadResponse.json()
-            const imageUrl = imageData.secure_url
+        if (!uploadResponse.ok) {
+            throw new Error('File upload failed')
+        }
+        const { url: imageUrl } = await uploadResponse.json()
 
 
-            const teamData = { ...data, document: imageUrl }
+        const teamData = { ...data, document: imageUrl }
 
-            const response = await fetch("/api/conferences", {
-                method: "POST",
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(teamData)
-            })
-            if (response.ok) {
-                reset()
-                setLoading(false)
-                toast.success('Details have uploaded successfully')
-                router.push('/dashboard/downloads')
-                console.log(teamData);
-            }
-        } catch (error) {
-            console.log(error);
+        const response = await fetch("/api/conferences", {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(teamData)
+        })
+        if (response.ok) {
+            reset()
+            setLoading(false)
+            toast.success('Details have uploaded successfully')
+            router.push('/dashboard/downloads')
+            console.log(teamData);
+        } else {
             setLoading(false)
             toast.error('Details were not uploaded')
         }

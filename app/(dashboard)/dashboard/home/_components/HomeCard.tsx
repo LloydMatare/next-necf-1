@@ -6,7 +6,7 @@ import React from 'react'
 
 export async function loadVacancy() {
     await connectToDB()
-    const events = await MainEvent.find()
+    const events = await MainEvent.find().limit(50)
     return events
 }
 

@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 export async function loadTasks() {
     await connectToDB()
-    const tasks = await Annual.find()
+    const tasks = await Annual.find().limit(50)
     return tasks
 }
 

@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 export async function loadTeam() {
     await connectToDB()
-    const teams = await Team.find()
+    const teams = await Team.find().limit(50)
     return teams
 }
 

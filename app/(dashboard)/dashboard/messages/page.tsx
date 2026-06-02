@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/DataTable";
 
 interface Message {
   id: string; // Added ID field
+  _id: string;
   name: string;
   email: string;
   phone: string;
@@ -14,23 +15,26 @@ interface Message {
 
 export default function MessagesPage() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetchMessages = useCallback(async (p: number) => {
+    const res = await fetch(`/api/messages?page=${p}&limit=20`);
+    const data = await res.json();
+
+    // Ensure that the messages returned have `id` instead of `_id`
+    const messagesWithId = data.data.map((message: any) => ({
+      ...message,
+      id: message._id, // Map _id to id
+    }));
+
+    setMessages(messagesWithId);
+    setTotalPages(data.totalPages);
+  }, []);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const res = await fetch("/api/messages");
-      const data = await res.json();
-
-      // Ensure that the messages returned have `id` instead of `_id`
-      const messagesWithId = data.messages.map((message: any) => ({
-        ...message,
-        id: message._id, // Map _id to id
-      }));
-
-      setMessages(messagesWithId);
-    };
-
-    fetchMessages();
-  }, []);
+    fetchMessages(page);
+  }, [page, fetchMessages]);
 
   const handleDelete = async (id: string) => {
     if (!id) return; // Prevent undefined ids
@@ -77,6 +81,9 @@ export default function MessagesPage() {
         filterPlaceholder="Filter emails..."
         filter="event"
         onDelete={handleDelete}
+        totalPages={totalPages}
+        page={page}
+        onPageChange={setPage}
       />
     </div>
   );

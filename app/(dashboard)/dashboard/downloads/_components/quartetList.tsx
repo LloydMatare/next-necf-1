@@ -9,7 +9,7 @@ import Quarterly from '@/models/(downloads)/quarterly'
 
 export async function loadDownload() {
     await connectToDB()
-    const quarterly = await Quarterly.find()
+    const quarterly = await Quarterly.find().limit(50)
     return quarterly
 }
 

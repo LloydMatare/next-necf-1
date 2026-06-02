@@ -6,7 +6,7 @@ import Download from '@/models/(downloads)/download'
 
 async function getDownloads() {
     await connectToDB()
-    const downloads = await Download.find()
+    const downloads = await Download.find().limit(50)
     return downloads;
 }
 

@@ -19,7 +19,7 @@ interface Service {
 
 export async function loadSection(): Promise<Service[]> {
   await connectToDB();
-  const services = await Service.find().lean();
+  const services = await Service.find().limit(50).lean();
   return services.map(service => ({
     ...service,
     id: service._id.toString()

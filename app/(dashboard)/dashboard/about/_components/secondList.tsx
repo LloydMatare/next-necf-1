@@ -7,7 +7,7 @@ import { MdOutlineDocumentScanner } from 'react-icons/md'
 
 export async function loadAbout() {
     await connectToDB()
-    const abouts = await AboutSecond.find()
+    const abouts = await AboutSecond.find().limit(50)
     return abouts
 }
 

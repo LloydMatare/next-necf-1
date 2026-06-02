@@ -5,6 +5,7 @@ export default async function getGalleries() {
     await connectToDB()
     const gallery = await Gallery.find()
         .select({ image: 1, title: 1, description: 1 })
+        .limit(50)
         .lean();
     // Next server->client boundaries require plain JSON values (no ObjectId/Date).
     return gallery.map((g: any) => ({

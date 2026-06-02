@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
     await connectToDB()
-    const vacancy = await Vacancy.find()
+    const vacancy = await Vacancy.find().limit(50)
     return NextResponse.json({ vacancy })
 }
 

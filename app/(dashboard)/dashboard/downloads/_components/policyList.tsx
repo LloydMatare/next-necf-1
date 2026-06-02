@@ -8,7 +8,7 @@ import Policy from '@/models/(downloads)/policy'
 
 export async function loadDownload() {
     await connectToDB()
-    const policy = await Policy.find()
+    const policy = await Policy.find().limit(50)
     return policy
 }
 

@@ -7,7 +7,7 @@ import Vacancy from '@/models/vacancy';
 
 export async function loadVacancy() {
     await connectToDB()
-    const vacancies = await Vacancy.find()
+    const vacancies = await Vacancy.find().limit(50)
     return vacancies
 }
 

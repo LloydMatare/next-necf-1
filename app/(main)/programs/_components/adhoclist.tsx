@@ -7,7 +7,7 @@ import ProgramCard from "@/components/ProgramCard";
 
 export async function getAdocs() {
   await connectToDB();
-  const adhoc = await Adhoc.find();
+  const adhoc = await Adhoc.find().limit(50);
   return adhoc;
 }
 

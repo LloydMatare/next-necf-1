@@ -7,7 +7,7 @@ import { MdTimer } from 'react-icons/md'
 
 export async function loadEvents() {
     await connectToDB()
-    const events = await MainEvent.find()
+    const events = await MainEvent.find().limit(50)
     return events
 }
 

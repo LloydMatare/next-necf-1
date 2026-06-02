@@ -36,7 +36,7 @@ export function DownloadCard({ title, document, imageUrl, date, link }: Download
 
 export async function loadDownload() {
     await connectToDB()
-    const downloads = await Download.find()
+    const downloads = await Download.find().limit(50)
     return downloads
 }
 

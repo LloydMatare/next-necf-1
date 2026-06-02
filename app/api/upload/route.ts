@@ -24,10 +24,16 @@ export async function POST(request: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
+    const isDocument = file.type === 'application/pdf' ||
+      file.type.startsWith('application/vnd') ||
+      file.type === 'application/msword' ||
+      file.type === 'application/zip' ||
+      file.type === 'application/x-rar-compressed';
+
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
-          resource_type: 'auto',
+          resource_type: isDocument ? 'raw' : 'auto',
           folder: 'necf',
           chunk_size: 60 * 1024 * 1024,
         },

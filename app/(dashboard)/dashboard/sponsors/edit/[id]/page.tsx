@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
@@ -30,7 +30,8 @@ interface FormValues {
   logo?: FileList;
 }
 
-export default function EditSponsorPage({ params }: { params: { id: string } }) {
+export default function EditSponsorPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [sponsor, setSponsor] = useState<Sponsor | null>(null);
@@ -52,7 +53,7 @@ export default function EditSponsorPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     async function fetchSponsor() {
       try {
-        const response = await fetch(`/api/sponsors/${params.id}`);
+        const response = await fetch(`/api/sponsors/${id}`);
         if (!response.ok) throw new Error("Failed to fetch sponsor");
         const data = await response.json();
         setSponsor(data);
@@ -71,7 +72,7 @@ export default function EditSponsorPage({ params }: { params: { id: string } }) 
     }
 
     fetchSponsor();
-  }, [params.id, reset, router]);
+  }, [id, reset, router]);
 
   async function handleDelete() {
     if (!sponsor) return;

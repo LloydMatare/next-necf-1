@@ -7,7 +7,7 @@ import { MdEditDocument } from 'react-icons/md'
 
 export async function loadAbout() {
     await connectToDB()
-    const abouts = await AboutGallery.find()
+    const abouts = await AboutGallery.find().limit(50)
     return abouts
 }
 

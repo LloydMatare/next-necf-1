@@ -3,6 +3,6 @@ import Section from "@/models/(home)/section";
 
 export default async function getSections() {
   await connectToDB();
-  return Section.find().sort({ createdAt: 1 }).lean();
+  return Section.find().sort({ createdAt: 1 }).limit(50).lean();
 }
 

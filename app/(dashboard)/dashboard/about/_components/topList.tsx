@@ -8,7 +8,7 @@ import { MdEditDocument, MdFileOpen } from 'react-icons/md'
 
 export async function loadAbout() {
     await connectToDB()
-    const abouts = await AboutTop.find()
+    const abouts = await AboutTop.find().limit(50)
     return abouts
 }
 

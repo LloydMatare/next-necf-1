@@ -8,7 +8,7 @@ import Conference from '@/models/(downloads)/conference'
 
 export async function loadDownload() {
     await connectToDB()
-    const conference = await Conference.find()
+    const conference = await Conference.find().limit(50)
     return conference
 }
 

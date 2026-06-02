@@ -7,7 +7,7 @@ import getTaskForces from '@/lib/download/getTaskforces'
 
 export async function loadTasks() {
     await connectToDB()
-    const tasks = await TaskForce.find()
+    const tasks = await TaskForce.find().limit(50)
     return tasks
 }
 

@@ -3,8 +3,8 @@ import BackButton from '@/components/backButton'
 import EditConference from '../../../_components/editConference'
 import getConference from '@/lib/download/getConference'
 
-//@ts-ignore
-async function ConferenceEdit({ params: { id } }) {
+async function ConferenceEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const download = await getConference(id)
     return (
         <div className='p-4'>

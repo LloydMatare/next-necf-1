@@ -14,10 +14,8 @@ async function handleDelete({ buttonId, router }: any) {
             method: 'DELETE'
         })
 
-        const data = await res.json()
         if (res.ok) {
             toast.success("Download deleted successfully")
-            return data
             router.push('/dashboard/downloads')
         } else {
             toast.error('Download delete was not successful')
@@ -32,7 +30,7 @@ function DeleteButton({ id }: any) {
     const router = useRouter()
     return (
         <Button
-            onClick={() => handleDelete(id)}
+            onClick={() => handleDelete({ buttonId: id, router })}
             className='bg-red-700 hover:bg-red-500'>
             Delete
         </Button>

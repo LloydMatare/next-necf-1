@@ -5,7 +5,7 @@ import Chairs from '@/models/chairs'
 
 export async function loadChairs() {
     await connectToDB()
-    const chairs = await Chairs.find()
+    const chairs = await Chairs.find().limit(50)
     return chairs
 }
 

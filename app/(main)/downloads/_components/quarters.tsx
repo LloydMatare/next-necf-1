@@ -24,42 +24,42 @@ import Quarterly from "@/models/(downloads)/quarterly"
 
 async function getResearches() {
     await connectToDB()
-    const researches = await Research.find()
+    const researches = await Research.find().limit(50)
     return researches;
 }
 
 async function getTaskForces() {
     await connectToDB()
-    const tasks = await task.find()
+    const tasks = await task.find().limit(50)
     return tasks;
 }
 
 async function getConferences() {
     await connectToDB()
-    const conferences = await Conference.find()
+    const conferences = await Conference.find().limit(50)
     return conferences;
 }
 async function getPolicy() {
     await connectToDB()
-    const policies = await Policy.find()
+    const policies = await Policy.find().limit(50)
     return policies;
 }
 
 async function getPresentations() {
     await connectToDB()
-    const presentations = await Presentation.find()
+    const presentations = await Presentation.find().limit(50)
     return presentations;
 }
 
 async function getMonthly() {
     await connectToDB()
-    const months = await Monthly.find()
+    const months = await Monthly.find().limit(50)
     return months;
 }
 
 async function getQuarter() {
     await connectToDB()
-    const quarters = await Quarterly.find()
+    const quarters = await Quarterly.find().limit(50)
     return quarters;
 }
 

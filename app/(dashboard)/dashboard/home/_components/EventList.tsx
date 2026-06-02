@@ -6,7 +6,7 @@ import React from 'react'
 
 export async function loadHero() {
     await connectToDB()
-    const sections = await Section.find()
+    const sections = await Section.find().limit(50)
     return sections
 }
 

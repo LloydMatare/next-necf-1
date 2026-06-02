@@ -4,6 +4,6 @@ import Service from "@/models/(home)/service";
 
 export default async function getServices() {
     await connectToDB()
-    const service = await Service.find()
+    const service = await Service.find().limit(50)
     return service;
 }

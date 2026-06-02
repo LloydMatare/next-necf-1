@@ -6,8 +6,8 @@ import DeleteButton from '../../_components/DeleteButton'
 
 
 
-//@ts-ignore
-async function DownloadEdit({ params: { id } }) {
+async function DownloadEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const download = await getDownload(id)
     return (
         <div className='p-4'>

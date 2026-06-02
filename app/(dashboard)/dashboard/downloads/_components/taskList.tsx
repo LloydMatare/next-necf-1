@@ -9,7 +9,7 @@ import Task from '@/models/(downloads)/task'
 
 export async function loadDownload() {
     await connectToDB()
-    const tasks = await Task.find()
+    const tasks = await Task.find().limit(50)
     return tasks
 }
 

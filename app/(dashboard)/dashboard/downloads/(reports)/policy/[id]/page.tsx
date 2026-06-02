@@ -4,8 +4,8 @@ import EditPolicy from '../../../_components/editPolicy'
 import getPolicy from '@/lib/download/getPolicy'
 
 
-//@ts-ignore
-async function DownloadEdit({ params: { id } }) {
+async function DownloadEdit({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
     const download = await getPolicy(id)
     return (
         <div className='p-4'>

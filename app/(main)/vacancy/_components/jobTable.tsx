@@ -16,7 +16,7 @@ import Vacancy from "@/models/vacancy";
 
 export default async function JobTable() {
 
-  const vacancies = await getVacancies()
+  const { vacancies } = await getVacancies()
 
 
   // const [isDialogOpen, setIsDialogOpen] = React.useState(false);

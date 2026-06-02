@@ -3,7 +3,7 @@ import { connectToDB } from "./connectToDB"
 
 export default async function getContacts() {
     await connectToDB()
-    const contacts = await Contact.find()
+    const contacts = await Contact.find().limit(50)
     return contacts
 }
 

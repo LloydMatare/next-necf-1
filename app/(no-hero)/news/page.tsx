@@ -28,6 +28,7 @@ export default async function NewsPage() {
   const raw = await Hero.find()
     .sort({ updatedAt: -1 })
     .select({ image: 1, title: 1, description: 1, updatedAt: 1 })
+    .limit(50)
     .lean();
 
   const items: NewsItem[] = raw.map((h: any) => ({

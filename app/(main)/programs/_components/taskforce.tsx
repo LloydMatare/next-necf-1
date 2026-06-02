@@ -7,7 +7,7 @@ import ProgramCard from "@/components/ProgramCard";
 
 export async function getTasks() {
   await connectToDB();
-  const tasks = await TaskForce.find();
+  const tasks = await TaskForce.find().limit(50);
   return tasks;
 }
 
